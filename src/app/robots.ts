@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/admin/',
+            disallow: ['/admin/', '/api/', '/profile/', '/history/', '/notifications/'],
         },
         sitemap: 'https://msbpstore.my.id/sitemap.xml',
     }
