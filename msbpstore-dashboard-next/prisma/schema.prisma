@@ -1,0 +1,280 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// WEB USERS — for msbpstore.my.id dashboard
+// ============================================
+model User {
+  id                BigInt    @id @default(autoincrement())
+  name              String?
+  email             String?   @unique
+  email_verified_at DateTime?
+  password          String?
+  username          String?
+  role              String    @default("customer")
+  google_id         String?   @unique
+  avatar            String?
+  otp_code          String?
+  otp_expires_at    DateTime?
+  otp_attempts      Int       @default(0)
+  reset_password_token   String?   @unique
+  reset_password_expires DateTime?
+  points            Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
+
+  customerOrders    Order[]   @relation("CustomerOrders")
+  notifications     Notification[]
+  pointTransactions PointTransaction[]
+  activityLogs      ActivityLog[]
+
+  @@map("users")
+}
+
+// ============================================
+// TELEGRAM USERS — for Telegram Bot
+// ============================================
+model TelegramUser {
+  id         BigInt   @id @default(autoincrement())
+  telegramId BigInt   @unique
+  username   String?
+  firstName  String?
+  lastName   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  orders     Order[]
+
+  @@map("telegram_users")
+}
+
+model Notification {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt
+  title     String
+  message   String
+  type      String   @default("INFO")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notifications")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Category {
+  id              BigInt    @id @default(autoincrement())
+  name            String
+  slug            String    @unique
+  image           String?
+  description     String?
+  keywords        String?
+  fields          Json?
+  active          Boolean   @default(true)
+  provider        String?
+  provider_config Json?
+  platform        String    @default("BOTH")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+
+  products        Product[]
+  vouchers        Voucher[]
+
+  @@map("categories")
+}
+
+model Product {
+  id           BigInt   @id @default(autoincrement())
+  name         String
+  description  String?
+  image        String?
+  price        Int
+  stock        Int      @default(0)
+  active       Boolean  @default(true)
+  categoryId   BigInt?
+  provider_sku String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  category     Category?    @relation(fields: [categoryId], references: [id])
+  orders       Order[]
+  redeemCodes  RedeemCode[]
+
+  @@map("products")
+}
+
+model RedeemCode {
+  id        BigInt   @id @default(autoincrement())
+  code      String   @unique
+  reward    String?
+  used      Boolean  @default(false)
+  productId BigInt
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("redeem_codes")
+}
+
+model Order {
+  id             BigInt      @id @default(autoincrement())
+  orderId        String      @unique
+  status         String      @default("PENDING")
+  paymentData    String?
+  customer_email String?
+  customer_no    String?
+  custom_fields  Json?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now()) @updatedAt
+
+  // Telegram User (bot orders)
+  telegramUserId BigInt?
+
+  // Web User (website orders)
+  customerUserId BigInt?
+
+  productId      BigInt
+
+  // Voucher discount
+  voucherId       BigInt?
+  discountAmount  Int         @default(0)
+
+  provider        String      @default("manual")
+  provider_ref_id String?
+  provider_sn     String?
+  provider_status String?
+  provider_response Json?
+  is_archived     Boolean     @default(false)
+  pointsEarned    Int         @default(0)
+
+  telegramUser   TelegramUser? @relation(fields: [telegramUserId], references: [id], onDelete: SetNull)
+  customerUser   User?         @relation("CustomerOrders", fields: [customerUserId], references: [id], onDelete: SetNull)
+  product        Product       @relation(fields: [productId], references: [id])
+
+  @@index([telegramUserId])
+  @@index([customerUserId])
+  @@index([productId])
+  @@index([orderId])
+  @@map("orders")
+}
+
+model StatsArchive {
+  id            BigInt   @id @default(autoincrement())
+  total_revenue Int
+  total_orders  Int
+  archived_at   DateTime @default(now())
+  notes         String?
+
+  @@map("stats_archives")
+}
+model Banner {
+  id        BigInt   @id @default(autoincrement())
+  imageUrl  String
+  linkUrl   String?
+  title     String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("banners")
+}
+
+// ============================================
+// VOUCHER / COUPON SYSTEM
+// ============================================
+model Voucher {
+  id            BigInt    @id @default(autoincrement())
+  code          String    @unique
+  description   String?
+  discountType  String    @default("NOMINAL") // "NOMINAL" | "PERCENTAGE"
+  discountValue Int       // Rp amount or % value
+  maxDiscount   Int?      // Cap for percentage type
+  minPurchase   Int?      // Minimum order amount
+  usageLimit    Int?      // Total usage limit (null = unlimited)
+  usageCount    Int       @default(0)
+  perUserLimit  Int       @default(1)
+  active        Boolean   @default(true)
+  expiresAt     DateTime?
+
+  // Scope: null = global (all categories)
+  categoryId    BigInt?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+
+  category      Category? @relation(fields: [categoryId], references: [id])
+  usages        VoucherUsage[]
+
+  @@map("vouchers")
+}
+
+model VoucherUsage {
+  id          BigInt   @id @default(autoincrement())
+  voucherId   BigInt
+  userId      BigInt?  // Logged-in user
+  guestId     String?  // Guest (email-based)
+  orderId     String
+  discount    Int      // Actual Rp discount applied
+  createdAt   DateTime @default(now())
+
+  voucher     Voucher  @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+
+  @@index([voucherId])
+  @@index([userId])
+  @@map("voucher_usages")
+}
+
+// ============================================
+// LOYALTY POINTS & BALANCE SYSTEM
+// ============================================
+
+model PointTransaction {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt
+  amount    Int      // Positive for EARN, negative for SPEND
+  type      String   // "EARN" | "SPEND" | "ADJUST"
+  description String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("point_transactions")
+}
+
+// ============================================
+// USER MONITORING — Activity Logs
+// ============================================
+
+model ActivityLog {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt?
+  action    String   // LOGIN, LOGOUT, CHECKOUT, REGISTER, OAUTH_LOGIN, PAGE_VIEW
+  detail    String?
+  ip        String?
+  userAgent String?
+  path      String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([action])
+  @@map("activity_logs")
+}
