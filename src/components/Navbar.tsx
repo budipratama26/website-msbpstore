@@ -31,8 +31,17 @@ export default function Navbar() {
 
     return (
         <header
-            style={{ background: "var(--bg-surface)", borderBottom: "var(--border-default)", height: "64px" }}
-            className="w-full relative z-[100] shrink-0"
+            style={{
+                background: "rgba(11,15,28,0.92)",
+                borderBottom: "1px solid var(--bg-border)",
+                height: "60px",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                position: "sticky",
+                top: 0,
+                zIndex: 100,
+            }}
+            className="w-full shrink-0"
         >
             <div className="max-w-5xl mx-auto h-full flex items-center justify-between gap-4 px-4 relative">
 
@@ -40,44 +49,57 @@ export default function Navbar() {
                 <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
                     <BlackHoleLogo size="sm" />
                     <span
-                        style={{ color: "var(--text-primary)", fontWeight: 800, fontSize: "16px", letterSpacing: "-0.02em" }}
-                        className="group-hover:opacity-80 transition-opacity"
+                        style={{
+                            fontWeight: 800,
+                            fontSize: "15px",
+                            letterSpacing: "-0.02em",
+                            background: "linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            backgroundClip: "text",
+                            transition: "opacity 150ms ease",
+                        }}
+                        className="group-hover:opacity-80"
                     >
                         MSBPSTORE
                     </span>
                 </Link>
 
                 {/* Desktop Nav — centered */}
-                <nav className="hidden lg:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
+                <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
                             href={link.href}
                             style={{
-                                fontSize: "14px",
-                                fontWeight: 500,
+                                fontSize: "13px",
+                                fontWeight: 600,
                                 color: isActive(link.href) ? "var(--accent-primary)" : "var(--text-secondary)",
                                 position: "relative",
-                                paddingBottom: "2px",
-                                transition: "color 150ms ease",
+                                paddingBottom: "4px",
+                                transition: "color 180ms ease",
                                 textDecoration: "none",
+                                letterSpacing: "0.02em",
                             }}
                             className="hover:text-[var(--text-primary)]"
                         >
                             {link.name}
-                            {isActive(link.href) && (
-                                <span
-                                    style={{
-                                        position: "absolute",
-                                        bottom: "-2px",
-                                        left: 0,
-                                        right: 0,
-                                        height: "2px",
-                                        background: "var(--accent-primary)",
-                                        borderRadius: "9999px",
-                                    }}
-                                />
-                            )}
+                            {/* Active indicator — pill style */}
+                            <span
+                                style={{
+                                    position: "absolute",
+                                    bottom: 0,
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                    height: "2px",
+                                    borderRadius: "9999px",
+                                    background: "var(--accent-primary)",
+                                    boxShadow: "0 0 8px var(--accent-glow)",
+                                    transition: "width 200ms ease, opacity 200ms ease",
+                                    width: isActive(link.href) ? "100%" : "0%",
+                                    opacity: isActive(link.href) ? 1 : 0,
+                                }}
+                            />
                         </Link>
                     ))}
                 </nav>
@@ -96,15 +118,16 @@ export default function Navbar() {
                                             display: "flex",
                                             alignItems: "center",
                                             gap: "6px",
-                                            fontSize: "13px",
-                                            fontWeight: 600,
+                                            fontSize: "12px",
+                                            fontWeight: 700,
                                             color: "var(--accent-primary)",
                                             textDecoration: "none",
                                             transition: "opacity 150ms ease",
+                                            letterSpacing: "0.02em",
                                         }}
-                                        className="hover:opacity-80"
+                                        className="hover:opacity-75"
                                     >
-                                        <LayoutDashboard className="w-4 h-4" />
+                                        <LayoutDashboard className="w-3.5 h-3.5" />
                                         Dashboard
                                     </Link>
                                 )}
@@ -122,41 +145,52 @@ export default function Navbar() {
                                             alignItems: "center",
                                             gap: "8px",
                                             background: "var(--bg-elevated)",
-                                            border: "var(--border-default)",
+                                            border: dropdownOpen ? "1px solid var(--accent-border)" : "1px solid var(--bg-border)",
                                             borderRadius: "var(--radius-md)",
-                                            padding: "7px 12px",
+                                            padding: "6px 10px",
                                             cursor: "pointer",
-                                            transition: "border-color 150ms ease",
+                                            transition: "border-color 180ms ease, box-shadow 180ms ease",
+                                            boxShadow: dropdownOpen ? "0 0 12px var(--accent-glow)" : "none",
                                         }}
-                                        className="hover:border-[var(--accent-border)]"
+                                        className="hover:border-[var(--accent-border)] hover:shadow-[0_0_12px_var(--accent-glow)]"
                                     >
+                                        {/* Avatar */}
                                         <div
                                             style={{
                                                 width: "22px",
                                                 height: "22px",
                                                 borderRadius: "50%",
-                                                background: "var(--accent-primary)",
+                                                background: "linear-gradient(135deg, var(--accent-primary), var(--accent-hover))",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
                                                 color: "#fff",
-                                                fontWeight: 700,
-                                                fontSize: "11px",
+                                                fontWeight: 800,
+                                                fontSize: "10px",
                                                 flexShrink: 0,
+                                                boxShadow: "0 0 8px var(--accent-glow)",
                                             }}
                                         >
                                             {session.user?.name?.[0]?.toUpperCase() || "U"}
                                         </div>
-                                        <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-primary)", maxWidth: "80px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        <span style={{
+                                            fontSize: "12px",
+                                            fontWeight: 700,
+                                            color: "var(--text-primary)",
+                                            maxWidth: "80px",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        }}>
                                             {session.user?.name?.split(" ")[0]}
                                         </span>
                                         <ChevronDown
                                             style={{
-                                                width: "13px",
-                                                height: "13px",
+                                                width: "12px",
+                                                height: "12px",
                                                 color: "var(--text-muted)",
                                                 transform: dropdownOpen ? "rotate(180deg)" : "none",
-                                                transition: "transform 150ms ease",
+                                                transition: "transform 180ms ease",
                                             }}
                                         />
                                     </button>
@@ -165,17 +199,17 @@ export default function Navbar() {
                                         <div
                                             style={{
                                                 position: "absolute",
-                                                top: "calc(100% + 8px)",
+                                                top: "calc(100% + 10px)",
                                                 right: 0,
                                                 background: "var(--bg-surface)",
-                                                border: "var(--border-default)",
+                                                border: "1px solid var(--bg-border)",
                                                 borderRadius: "var(--radius-xl)",
-                                                boxShadow: "var(--shadow-lg)",
+                                                boxShadow: "var(--shadow-lg), 0 0 24px var(--accent-glow)",
                                                 padding: "6px",
-                                                minWidth: "168px",
+                                                minWidth: "172px",
                                                 zIndex: 110,
                                             }}
-                                            className="animate-fade-in"
+                                            className="animate-scale-in"
                                         >
                                             <Link
                                                 href="/profile"
@@ -238,10 +272,11 @@ export default function Navbar() {
                                         padding: "8px 12px",
                                         textDecoration: "none",
                                         transition: "color 150ms ease",
+                                        letterSpacing: "0.02em",
                                     }}
                                     className="hover:text-[var(--text-primary)]"
                                 >
-                                    <User className="w-4 h-4" />
+                                    <User className="w-3.5 h-3.5" />
                                     Masuk
                                 </Link>
                                 <Link href="/register" className="btn btn-primary btn-sm">
@@ -282,6 +317,7 @@ export default function Navbar() {
             {isOpen && (
                 <div
                     className="fixed inset-0 z-[95] lg:hidden"
+                    style={{ background: "rgba(6,8,15,0.5)", backdropFilter: "blur(2px)" }}
                     onClick={() => setIsOpen(false)}
                 />
             )}
@@ -295,14 +331,13 @@ export default function Navbar() {
                         right: 0,
                         top: "100%",
                         background: "var(--bg-surface)",
-                        borderBottom: "var(--border-default)",
-                        boxShadow: "var(--shadow-md)",
+                        borderBottom: "1px solid var(--bg-border)",
+                        boxShadow: "var(--shadow-lg)",
                         zIndex: 100,
                     }}
-                    className="lg:hidden"
+                    className="lg:hidden animate-fade-in-fast"
                 >
-                    <div style={{ padding: "12px" }} className="space-y-0.5">
-
+                    <div style={{ padding: "10px" }} className="space-y-0.5">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
@@ -319,18 +354,20 @@ export default function Navbar() {
                                     background: isActive(link.href) ? "var(--accent-subtle)" : "transparent",
                                     transition: "background 150ms ease, color 150ms ease",
                                     textDecoration: "none",
+                                    letterSpacing: "0.01em",
                                 }}
                                 className={!isActive(link.href) ? "hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]" : ""}
                             >
                                 {isActive(link.href) && (
                                     <span
                                         style={{
-                                            marginRight: "8px",
+                                            marginRight: "10px",
                                             width: "3px",
                                             height: "16px",
-                                            background: "var(--accent-primary)",
+                                            background: "linear-gradient(to bottom, var(--accent-primary), var(--accent-hover))",
                                             borderRadius: "9999px",
                                             flexShrink: 0,
+                                            boxShadow: "0 0 6px var(--accent-glow)",
                                         }}
                                     />
                                 )}
@@ -361,21 +398,26 @@ export default function Navbar() {
                                             width: "32px",
                                             height: "32px",
                                             borderRadius: "50%",
-                                            background: "var(--accent-primary)",
+                                            background: "linear-gradient(135deg, var(--accent-primary), var(--accent-hover))",
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
                                             color: "#fff",
-                                            fontWeight: 700,
+                                            fontWeight: 800,
                                             fontSize: "13px",
                                             flexShrink: 0,
+                                            boxShadow: "0 0 12px var(--accent-glow)",
                                         }}
                                     >
                                         {session.user?.name?.[0]?.toUpperCase() || "U"}
                                     </div>
                                     <div>
-                                        <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.2 }}>{session.user?.name}</p>
-                                        <p style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>Lihat Profil</p>
+                                        <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.2 }}>
+                                            {session.user?.name}
+                                        </p>
+                                        <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500, marginTop: "2px" }}>
+                                            Lihat Profil
+                                        </p>
                                     </div>
                                 </Link>
 

@@ -13,19 +13,67 @@ export default function Footer() {
     if (pathname?.startsWith("/admin")) return null;
 
     return (
-        <footer style={{ background: "var(--bg-surface)", borderTop: "var(--border-default)", marginTop: "auto" }}>
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <footer
+            style={{
+                background: "var(--bg-surface)",
+                borderTop: "1px solid var(--bg-border)",
+                marginTop: "auto",
+                position: "relative",
+                overflow: "hidden",
+            }}
+        >
+            {/* Subtle indigo glow di top-center */}
+            <div
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "300px",
+                    height: "1px",
+                    background: "linear-gradient(90deg, transparent, var(--accent-border), transparent)",
+                    pointerEvents: "none",
+                }}
+            />
+            <div
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "200px",
+                    height: "60px",
+                    background: "radial-gradient(ellipse at top, var(--accent-glow) 0%, transparent 70%)",
+                    pointerEvents: "none",
+                }}
+            />
+
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 relative">
 
                 {/* Top */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-6">
                     {/* Brand */}
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                         <BlackHoleLogo size="sm" />
                         <div>
-                            <span style={{ fontWeight: 800, fontSize: "15px", letterSpacing: "-0.02em", color: "var(--text-primary)", display: "block", lineHeight: 1.2 }}>
+                            <span
+                                style={{
+                                    fontWeight: 800,
+                                    fontSize: "15px",
+                                    letterSpacing: "-0.02em",
+                                    display: "block",
+                                    lineHeight: 1.2,
+                                    background: "linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                }}
+                            >
                                 MSBPSTORE
                             </span>
-                            <p style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>Pusat Top Up Game Terpercaya</p>
+                            <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500, marginTop: "2px" }}>
+                                Pusat Top Up Game Terpercaya
+                            </p>
                         </div>
                     </div>
 
@@ -45,11 +93,12 @@ export default function Footer() {
                                 style={{
                                     fontSize: "13px",
                                     fontWeight: 500,
-                                    color: "var(--text-secondary)",
+                                    color: "var(--text-muted)",
                                     textDecoration: "none",
                                     transition: "color 150ms ease",
+                                    letterSpacing: "0.01em",
                                 }}
-                                className="hover:text-[var(--text-primary)]"
+                                className="hover:text-[var(--accent-primary)]"
                             >
                                 {link.label}
                             </Link>
@@ -64,9 +113,22 @@ export default function Footer() {
                     <p style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>
                         © {new Date().getFullYear()} MSBP Store. All rights reserved.
                     </p>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "12px",
+                            color: "var(--text-muted)",
+                            fontWeight: 500,
+                            background: "var(--success-muted)",
+                            padding: "4px 10px",
+                            borderRadius: "var(--radius-full)",
+                            border: "1px solid rgba(52,211,153,0.15)",
+                        }}
+                    >
                         <ShieldCheck style={{ width: "13px", height: "13px", color: "var(--success)", flexShrink: 0 }} />
-                        <span>Transaksi Aman &amp; Terenkripsi</span>
+                        <span style={{ color: "var(--success)" }}>Transaksi Aman &amp; Terenkripsi</span>
                     </div>
                 </div>
             </div>

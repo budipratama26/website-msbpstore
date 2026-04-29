@@ -37,7 +37,6 @@ export default function HomeClientWrapper({
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(false);
 
-
     useEffect(() => {
         if (status === "authenticated") {
             setLoadingOrders(true);
@@ -78,8 +77,43 @@ export default function HomeClientWrapper({
         <div style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", display: "flex", flexDirection: "column" }}>
 
             {/* Hero / Banner Section */}
-            <section style={{ background: "var(--bg-surface)", borderBottom: "var(--border-default)", padding: "0 16px 20px" }}>
-                <div className="max-w-5xl mx-auto space-y-4" style={{ paddingTop: "4px" }}>
+            <section
+                style={{
+                    background: "var(--bg-surface)",
+                    borderBottom: "1px solid var(--bg-border)",
+                    padding: "0 16px 24px",
+                    position: "relative",
+                    overflow: "hidden",
+                }}
+            >
+                {/* Decorative indigo glow — subtle, di pojok kiri */}
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "-60px",
+                        left: "-60px",
+                        width: "280px",
+                        height: "280px",
+                        background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
+                        pointerEvents: "none",
+                        zIndex: 0,
+                    }}
+                />
+                {/* Decorative glow kanan */}
+                <div
+                    style={{
+                        position: "absolute",
+                        bottom: "-40px",
+                        right: "-40px",
+                        width: "200px",
+                        height: "200px",
+                        background: "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
+                        pointerEvents: "none",
+                        zIndex: 0,
+                    }}
+                />
+
+                <div className="max-w-5xl mx-auto space-y-4 relative" style={{ zIndex: 1, paddingTop: "4px" }}>
 
                     {banners.length > 0 && (
                         <div className="overflow-hidden py-4 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -87,24 +121,43 @@ export default function HomeClientWrapper({
                         </div>
                     )}
 
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{ textAlign: "center", paddingTop: banners.length === 0 ? "16px" : "0" }}>
                         <h1
                             style={{
-                                fontSize: "clamp(24px, 4vw, 36px)",
+                                fontSize: "clamp(22px, 4vw, 34px)",
                                 fontWeight: 800,
-                                letterSpacing: "-0.02em",
-                                color: "var(--text-primary)",
-                                marginBottom: "8px",
-                                lineHeight: 1.2,
+                                letterSpacing: "-0.03em",
+                                marginBottom: "10px",
+                                lineHeight: 1.15,
                             }}
                         >
                             Top Up{" "}
-                            <span style={{ color: "var(--accent-primary)" }}>Game</span>
+                            <span
+                                style={{
+                                    background: "linear-gradient(135deg, var(--accent-primary) 0%, #a5b4fc 100%)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                }}
+                            >
+                                Game
+                            </span>
                         </h1>
-                        <p style={{ color: "var(--text-secondary)", fontSize: "14px", maxWidth: "420px", margin: "0 auto", lineHeight: 1.65 }}>
+                        <p
+                            style={{
+                                color: "var(--text-secondary)",
+                                fontSize: "13px",
+                                maxWidth: "380px",
+                                margin: "0 auto",
+                                lineHeight: 1.65,
+                                fontWeight: 400,
+                            }}
+                        >
                             Top up game favoritmu di{" "}
-                            <span style={{ fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>MSBP Store</span>.{" "}
-                            Proses instan 24 jam, harga termurah &amp; terpercaya.
+                            <span style={{ fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+                                MSBP Store
+                            </span>
+                            .{" "}Proses instan 24 jam, harga termurah &amp; terpercaya.
                         </p>
                     </div>
                 </div>
@@ -115,12 +168,13 @@ export default function HomeClientWrapper({
                 style={{
                     position: "sticky",
                     zIndex: 90,
-                    background: "rgba(10,14,23,0.92)",
-                    backdropFilter: "blur(8px)",
-                    borderBottom: "var(--border-default)",
-                    boxShadow: "var(--shadow-sm)",
+                    background: "rgba(6,8,15,0.94)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    borderBottom: "1px solid var(--bg-border)",
+                    boxShadow: "0 2px 16px rgba(0,0,0,0.4)",
                     padding: "10px 16px",
-                    top: "var(--header-height, 56px)",
+                    top: "60px",
                 }}
             >
                 <div className="max-w-lg mx-auto relative">
@@ -130,8 +184,8 @@ export default function HomeClientWrapper({
                             left: "13px",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            width: "15px",
-                            height: "15px",
+                            width: "14px",
+                            height: "14px",
                             color: "var(--text-muted)",
                             pointerEvents: "none",
                         }}
@@ -139,28 +193,27 @@ export default function HomeClientWrapper({
                     <input
                         type="text"
                         value={searchQuery}
-                        onFocus={(e) => {
-                            e.currentTarget.style.borderColor = "var(--accent-border)";
-                        }}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Cari game pilihanmu..."
                         style={{
                             width: "100%",
                             background: "var(--bg-elevated)",
-                            border: "var(--border-default)",
+                            border: "1px solid var(--bg-border)",
                             borderRadius: "var(--radius-md)",
-                            padding: "9px 36px 9px 40px",
-                            fontSize: "14px",
+                            padding: "9px 36px 9px 38px",
+                            fontSize: "13px",
                             color: "var(--text-primary)",
                             outline: "none",
-                            transition: "border-color 150ms ease",
+                            transition: "border-color 180ms ease, box-shadow 180ms ease",
                             fontFamily: "inherit",
                         }}
-                        onFocusCapture={(e) => {
+                        onFocus={(e) => {
                             e.currentTarget.style.borderColor = "var(--accent-border)";
+                            e.currentTarget.style.boxShadow = "0 0 0 3px var(--accent-glow)";
                         }}
-                        onBlurCapture={(e) => {
+                        onBlur={(e) => {
                             e.currentTarget.style.borderColor = "var(--bg-border)";
+                            e.currentTarget.style.boxShadow = "none";
                         }}
                     />
                     {searchQuery && (
@@ -180,7 +233,7 @@ export default function HomeClientWrapper({
                             }}
                             className="hover:text-[var(--text-primary)]"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-3.5 h-3.5" />
                         </button>
                     )}
                 </div>
@@ -192,18 +245,30 @@ export default function HomeClientWrapper({
 
                     {/* Beli Lagi */}
                     {!searchQuery && status === "authenticated" && !loadingOrders && recentOrders.length > 0 && (
-                        <div>
+                        <div className="animate-fade-in">
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                    <RotateCw style={{ width: "15px", height: "15px", color: "var(--accent-primary)" }} />
-                                    <h2 style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>Beli Lagi</h2>
+                                    <RotateCw style={{ width: "14px", height: "14px", color: "var(--accent-primary)" }} />
+                                    <h2 style={{ fontWeight: 700, fontSize: "13px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+                                        Beli Lagi
+                                    </h2>
                                 </div>
                                 <Link
                                     href="/history"
-                                    style={{ fontSize: "12px", fontWeight: 600, color: "var(--accent-primary)", display: "flex", alignItems: "center", gap: "2px", textDecoration: "none", transition: "opacity 150ms ease" }}
-                                    className="hover:opacity-75"
+                                    style={{
+                                        fontSize: "12px",
+                                        fontWeight: 600,
+                                        color: "var(--accent-primary)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "2px",
+                                        textDecoration: "none",
+                                        transition: "opacity 150ms ease",
+                                        letterSpacing: "0.01em",
+                                    }}
+                                    className="hover:opacity-70"
                                 >
-                                    Riwayat <ChevronRight style={{ width: "13px", height: "13px" }} />
+                                    Riwayat <ChevronRight style={{ width: "12px", height: "12px" }} />
                                 </Link>
                             </div>
 
@@ -225,28 +290,28 @@ export default function HomeClientWrapper({
                                             key={`${order.id}-${idx}`}
                                             href={checkoutUrl}
                                             style={{
-                                                minWidth: "210px",
-                                                maxWidth: "250px",
+                                                minWidth: "200px",
+                                                maxWidth: "240px",
                                                 flexShrink: 0,
                                                 background: "var(--bg-surface)",
-                                                border: "var(--border-default)",
+                                                border: "1px solid var(--bg-border)",
                                                 borderRadius: "var(--radius-lg)",
                                                 padding: "12px",
                                                 display: "flex",
                                                 gap: "12px",
-                                                transition: "border-color 150ms ease, box-shadow 150ms ease",
+                                                transition: "border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
                                                 textDecoration: "none",
                                                 scrollSnapAlign: "start",
                                             }}
-                                            className="hover:border-[var(--accent-border)] hover:shadow-[var(--shadow-md)] group"
+                                            className="hover:border-[var(--accent-border)] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_var(--accent-glow)]"
                                         >
                                             <div
                                                 style={{
-                                                    width: "42px",
-                                                    height: "42px",
+                                                    width: "40px",
+                                                    height: "40px",
                                                     background: "var(--bg-elevated)",
                                                     borderRadius: "var(--radius-md)",
-                                                    border: "var(--border-default)",
+                                                    border: "1px solid var(--bg-border)",
                                                     overflow: "hidden",
                                                     flexShrink: 0,
                                                     position: "relative",
@@ -255,18 +320,43 @@ export default function HomeClientWrapper({
                                                 {order.categoryImage ? (
                                                     <img src={order.categoryImage} alt={order.productCategory} className="w-full h-full object-cover" />
                                                 ) : (
-                                                    <Gamepad2 style={{ width: "18px", height: "18px", color: "var(--text-muted)", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
+                                                    <Gamepad2 style={{ width: "16px", height: "16px", color: "var(--text-muted)", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
                                                 )}
                                             </div>
                                             <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1, justifyContent: "space-between" }}>
-                                                <h3 style={{ fontWeight: 700, fontSize: "12px", color: "var(--text-primary)", letterSpacing: "-0.01em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: 1.3 }}>
+                                                <h3 style={{
+                                                    fontWeight: 700,
+                                                    fontSize: "12px",
+                                                    color: "var(--text-primary)",
+                                                    letterSpacing: "-0.01em",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    whiteSpace: "nowrap",
+                                                    lineHeight: 1.3,
+                                                }}>
                                                     {order.productName}
                                                 </h3>
                                                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "6px" }}>
-                                                    <span style={{ fontSize: "10px", fontWeight: 500, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginRight: "8px" }}>
+                                                    <span style={{
+                                                        fontSize: "10px",
+                                                        fontWeight: 500,
+                                                        color: "var(--text-muted)",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        whiteSpace: "nowrap",
+                                                        marginRight: "8px",
+                                                    }}>
                                                         {maskedTarget}
                                                     </span>
-                                                    <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--accent-primary)", flexShrink: 0 }}>Beli</span>
+                                                    <span style={{
+                                                        fontSize: "11px",
+                                                        fontWeight: 700,
+                                                        color: "var(--accent-primary)",
+                                                        flexShrink: 0,
+                                                        letterSpacing: "0.02em",
+                                                    }}>
+                                                        Beli
+                                                    </span>
                                                 </div>
                                             </div>
                                         </Link>
@@ -277,17 +367,20 @@ export default function HomeClientWrapper({
                     )}
 
                     {/* Game Categories */}
-                    <div>
+                    <div className="animate-fade-in">
                         {!searchQuery && (
                             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                                <TrendingUp style={{ width: "15px", height: "15px", color: "var(--accent-primary)" }} />
-                                <h2 style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>Semua Game</h2>
+                                <TrendingUp style={{ width: "14px", height: "14px", color: "var(--accent-primary)" }} />
+                                <h2 style={{ fontWeight: 700, fontSize: "13px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+                                    Semua Game
+                                </h2>
                                 <span
                                     style={{
                                         fontSize: "11px",
                                         fontWeight: 600,
                                         color: "var(--text-muted)",
                                         background: "var(--bg-elevated)",
+                                        border: "1px solid var(--bg-border)",
                                         padding: "2px 8px",
                                         borderRadius: "var(--radius-full)",
                                     }}
@@ -311,7 +404,7 @@ export default function HomeClientWrapper({
                                     <Link
                                         key={category.id}
                                         href={`/category/${category.slug}`}
-                                        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", textDecoration: "none", outline: "none" }}
+                                        style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "7px", textDecoration: "none", outline: "none" }}
                                         className="group"
                                     >
                                         <div
@@ -321,18 +414,29 @@ export default function HomeClientWrapper({
                                                 aspectRatio: "1 / 1",
                                                 borderRadius: "var(--radius-lg)",
                                                 overflow: "hidden",
-                                                border: "var(--border-default)",
+                                                border: "1px solid var(--bg-border)",
                                                 background: "var(--bg-surface)",
                                                 boxShadow: "var(--shadow-sm)",
-                                                transition: "border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
+                                                transition: "border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
                                             }}
-                                            className="group-hover:border-[var(--accent-border)] group-hover:shadow-[0_4px_16px_rgba(59,130,246,0.15)] group-hover:-translate-y-0.5"
+                                            className="group-hover:border-[var(--accent-border)] group-hover:shadow-[0_4px_20px_var(--accent-glow)] group-hover:-translate-y-1"
                                         >
                                             <CategoryImage
                                                 src={category.image}
                                                 alt={category.name}
                                                 sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 15vw"
                                                 className="absolute inset-0 w-full h-full object-cover"
+                                            />
+                                            {/* Indigo overlay on hover */}
+                                            <div
+                                                style={{
+                                                    position: "absolute",
+                                                    inset: 0,
+                                                    background: "var(--accent-subtle)",
+                                                    opacity: 0,
+                                                    transition: "opacity 180ms ease",
+                                                }}
+                                                className="group-hover:opacity-100"
                                             />
                                         </div>
                                         <h3
@@ -346,11 +450,11 @@ export default function HomeClientWrapper({
                                                 WebkitLineClamp: 1,
                                                 WebkitBoxOrient: "vertical" as any,
                                                 textTransform: "uppercase",
-                                                letterSpacing: "0.05em",
-                                                padding: "0 4px",
-                                                transition: "color 150ms ease",
+                                                letterSpacing: "0.06em",
+                                                padding: "0 2px",
+                                                transition: "color 180ms ease",
                                             }}
-                                            className="group-hover:text-[var(--accent-primary)] sm:text-[11px]"
+                                            className="group-hover:text-[var(--accent-primary)] sm:text-[10px]"
                                         >
                                             {category.name}
                                         </h3>
@@ -360,10 +464,14 @@ export default function HomeClientWrapper({
                         ) : (
                             <div className="empty-state">
                                 <div className="empty-icon">
-                                    <Search className="w-6 h-6" />
+                                    <Search className="w-5 h-5" />
                                 </div>
-                                <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>Game tidak ditemukan</p>
-                                <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>Coba gunakan kata kunci lain</p>
+                                <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
+                                    Game tidak ditemukan
+                                </p>
+                                <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                                    Coba gunakan kata kunci lain
+                                </p>
                             </div>
                         )}
                     </div>
@@ -371,11 +479,13 @@ export default function HomeClientWrapper({
             </section>
 
             {/* Trust Badges */}
-            <section style={{ padding: "0 16px 24px" }}>
+            <section style={{ padding: "0 16px 28px" }}>
                 <div className="max-w-5xl mx-auto">
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                        <Gamepad2 style={{ width: "15px", height: "15px", color: "var(--accent-primary)" }} />
-                        <h2 style={{ fontWeight: 700, fontSize: "14px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>Kenapa MSBP Store?</h2>
+                        <Gamepad2 style={{ width: "14px", height: "14px", color: "var(--accent-primary)" }} />
+                        <h2 style={{ fontWeight: 700, fontSize: "13px", color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+                            Kenapa MSBP Store?
+                        </h2>
                     </div>
                     <TrustBadges />
                 </div>

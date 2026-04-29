@@ -1,3 +1,6 @@
+// ============================================================
+// SUBSCRIPTIONS PAGE — src/app/profile/subscriptions/page.tsx
+// ============================================================
 "use client";
 
 import { CreditCard, ChevronLeft, Layout } from "lucide-react";
@@ -5,10 +8,9 @@ import Link from "next/link";
 
 export default function SubscriptionsPage() {
     return (
-        <div style={{ minHeight: "calc(100vh - var(--header-height, 56px))", background: "var(--bg-base)", padding: "24px 16px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ minHeight: "calc(100vh - var(--header-height, 60px))", background: "var(--bg-base)", padding: "24px 16px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ width: "100%", maxWidth: "540px" }}>
 
-                {/* Header with Back Button */}
                 <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "20px" }}>
                     <Link href="/profile" className="back-btn" title="Kembali">
                         <ChevronLeft style={{ width: "18px", height: "18px" }} />
@@ -16,8 +18,7 @@ export default function SubscriptionsPage() {
                     <h1 style={{ fontSize: "18px", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--text-primary)" }}>Paket Langganan</h1>
                 </div>
 
-                {/* Empty State Card */}
-                <div className="card empty-state" style={{ padding: "60px 32px" }}>
+                <div className="card empty-state animate-fade-in" style={{ padding: "60px 32px" }}>
                     <div className="empty-icon">
                         <CreditCard style={{ width: "24px", height: "24px" }} />
                     </div>

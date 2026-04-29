@@ -28,8 +28,7 @@ export default function LoginPage() {
                 } else {
                     setError("Email atau password salah.");
                 }
-            }
-            else if (result?.ok) { router.push("/"); router.refresh(); }
+            } else if (result?.ok) { router.push("/"); router.refresh(); }
         } catch {
             setError("Terjadi kesalahan sistem.");
         } finally {
@@ -40,16 +39,22 @@ export default function LoginPage() {
     return (
         <div
             style={{
-                minHeight: "calc(100vh - var(--header-height, 56px))",
+                minHeight: "calc(100vh - var(--header-height, 60px))",
                 background: "var(--bg-base)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "40px 16px",
+                position: "relative",
+                overflow: "hidden",
             }}
         >
-            <div style={{ width: "100%", maxWidth: "420px" }}>
+            {/* Background glow decorations */}
+            <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "500px", height: "300px", background: "radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: "-60px", right: "-60px", width: "300px", height: "300px", background: "radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+
+            <div style={{ width: "100%", maxWidth: "420px", position: "relative", zIndex: 1 }}>
 
                 {/* Card */}
                 <div
@@ -57,7 +62,7 @@ export default function LoginPage() {
                         background: "var(--bg-surface)",
                         border: "var(--border-default)",
                         borderRadius: "var(--radius-xl)",
-                        boxShadow: "var(--shadow-lg)",
+                        boxShadow: "var(--shadow-lg), 0 0 40px var(--accent-glow)",
                         padding: "28px 28px 32px",
                         position: "relative",
                     }}
@@ -72,8 +77,8 @@ export default function LoginPage() {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "28px", marginTop: "20px" }}>
                         <div
                             style={{
-                                width: "48px",
-                                height: "48px",
+                                width: "52px",
+                                height: "52px",
                                 background: "var(--accent-muted)",
                                 border: "1px solid var(--accent-border)",
                                 borderRadius: "var(--radius-lg)",
@@ -81,6 +86,7 @@ export default function LoginPage() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 marginBottom: "16px",
+                                boxShadow: "0 0 20px var(--accent-glow)",
                             }}
                         >
                             <BlackHoleLogo size="sm" />
@@ -88,15 +94,23 @@ export default function LoginPage() {
                         <h1
                             style={{
                                 fontSize: "22px",
-                                fontWeight: 700,
-                                color: "var(--text-primary)",
+                                fontWeight: 800,
                                 letterSpacing: "-0.02em",
                                 textAlign: "center",
                                 marginBottom: "6px",
                             }}
                         >
                             Masuk ke{" "}
-                            <span style={{ color: "var(--accent-primary)" }}>MSBP Store</span>
+                            <span
+                                style={{
+                                    background: "linear-gradient(135deg, var(--accent-primary), #a5b4fc)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                }}
+                            >
+                                MSBP Store
+                            </span>
                         </h1>
                         <p style={{ fontSize: "13px", color: "var(--text-secondary)", textAlign: "center" }}>Selamat datang kembali!</p>
                     </div>
@@ -125,48 +139,18 @@ export default function LoginPage() {
 
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-4">
-
                         <div>
                             <label className="form-label">Email</label>
                             <div style={{ position: "relative" }}>
-                                <Mail
-                                    style={{
-                                        position: "absolute",
-                                        left: "13px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        width: "15px",
-                                        height: "15px",
-                                        color: "var(--text-muted)",
-                                        pointerEvents: "none",
-                                    }}
-                                />
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    placeholder="contoh@email.com"
-                                    required
-                                    className="form-input form-input-icon"
-                                />
+                                <Mail style={{ position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", width: "15px", height: "15px", color: "var(--text-muted)", pointerEvents: "none" }} />
+                                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="contoh@email.com" required className="form-input form-input-icon" />
                             </div>
                         </div>
 
                         <div>
                             <label className="form-label">Password</label>
                             <div style={{ position: "relative" }}>
-                                <Lock
-                                    style={{
-                                        position: "absolute",
-                                        left: "13px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        width: "15px",
-                                        height: "15px",
-                                        color: "var(--text-muted)",
-                                        pointerEvents: "none",
-                                    }}
-                                />
+                                <Lock style={{ position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", width: "15px", height: "15px", color: "var(--text-muted)", pointerEvents: "none" }} />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={password}
@@ -177,51 +161,23 @@ export default function LoginPage() {
                                     style={{ paddingRight: "44px" }}
                                 />
                                 {password && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        style={{
-                                            position: "absolute",
-                                            right: "13px",
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            color: "var(--text-muted)",
-                                            background: "none",
-                                            border: "none",
-                                            cursor: "pointer",
-                                            padding: 0,
-                                            transition: "color 150ms ease",
-                                        }}
-                                        className="hover:text-[var(--text-primary)]"
-                                    >
+                                    <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: "13px", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer", padding: 0, transition: "color 150ms ease" }} className="hover:text-[var(--text-primary)]">
                                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                     </button>
                                 )}
                             </div>
                             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8px" }}>
-                                <Link
-                                    href="/forgot-password"
-                                    style={{ fontSize: "12px", fontWeight: 600, color: "var(--accent-primary)", textDecoration: "none", transition: "opacity 150ms ease" }}
-                                    className="hover:opacity-75"
-                                >
+                                <Link href="/forgot-password" style={{ fontSize: "12px", fontWeight: 600, color: "var(--accent-primary)", textDecoration: "none", transition: "opacity 150ms ease" }} className="hover:opacity-75">
                                     Lupa password?
                                 </Link>
                             </div>
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="btn btn-primary btn-full btn-lg"
-                            style={{ marginTop: "4px" }}
-                        >
+                        <button type="submit" disabled={isLoading} className="btn btn-primary btn-full btn-lg" style={{ marginTop: "4px" }}>
                             {isLoading ? (
                                 <div style={{ width: "18px", height: "18px", border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
                             ) : (
-                                <>
-                                    <LogIn className="w-4 h-4" />
-                                    Masuk Sekarang
-                                </>
+                                <><LogIn className="w-4 h-4" />Masuk Sekarang</>
                             )}
                         </button>
                     </form>
@@ -235,23 +191,21 @@ export default function LoginPage() {
                     <GoogleButton text="Lanjutkan dengan Google" />
 
                     <p style={{ fontSize: "11px", color: "var(--text-muted)", textAlign: "center", marginTop: "16px", lineHeight: 1.5 }}>
-                        Dengan mendaftar atau masuk menggunakan Google, Anda menyetujui <Link href="/terms" style={{ color: "var(--accent-primary)", textDecoration: "none" }} className="hover:opacity-75">Syarat Ketentuan</Link> dan <Link href="/privacy" style={{ color: "var(--accent-primary)", textDecoration: "none" }} className="hover:opacity-75">Kebijakan Privasi</Link> MSBP Store.
+                        Dengan mendaftar atau masuk, Anda menyetujui{" "}
+                        <Link href="/terms" style={{ color: "var(--accent-primary)", textDecoration: "none" }} className="hover:opacity-75">Syarat Ketentuan</Link>
+                        {" "}dan{" "}
+                        <Link href="/privacy" style={{ color: "var(--accent-primary)", textDecoration: "none" }} className="hover:opacity-75">Kebijakan Privasi</Link>
+                        {" "}MSBP Store.
                     </p>
                 </div>
 
                 <p style={{ textAlign: "center", fontSize: "13px", color: "var(--text-secondary)", marginTop: "20px" }}>
                     Belum punya akun?{" "}
-                    <Link
-                        href="/register"
-                        style={{ color: "var(--accent-primary)", fontWeight: 600, textDecoration: "none", transition: "opacity 150ms ease" }}
-                        className="hover:opacity-75"
-                    >
+                    <Link href="/register" style={{ color: "var(--accent-primary)", fontWeight: 600, textDecoration: "none", transition: "opacity 150ms ease" }} className="hover:opacity-75">
                         Daftar Gratis
                     </Link>
                 </p>
-                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>
-                    🔒 Transaksi aman &amp; terenkripsi
-                </p>
+                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>🔒 Transaksi aman &amp; terenkripsi</p>
             </div>
 
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>

@@ -23,9 +23,9 @@ export default function SecurityPage() {
     };
 
     return (
-        <div style={{ minHeight: "calc(100vh - var(--header-height, 56px))", background: "var(--bg-base)", padding: "24px 16px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ minHeight: "calc(100vh - var(--header-height, 60px))", background: "var(--bg-base)", padding: "24px 16px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ width: "100%", maxWidth: "540px" }}>
-                <div className="card space-y-5" style={{ padding: "24px" }}>
+                <div className="card space-y-5 animate-fade-in" style={{ padding: "24px" }}>
 
                     {/* Header */}
                     <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px", borderBottom: "1px solid var(--bg-border)", paddingBottom: "16px" }}>
@@ -34,7 +34,7 @@ export default function SecurityPage() {
                         </Link>
                         <div>
                             <h1 style={{ fontSize: "18px", fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: "10px" }}>
-                                <Lock style={{ width: "20px", height: "20px", color: "var(--accent-primary)" }} />
+                                <Lock style={{ width: "18px", height: "18px", color: "var(--accent-primary)" }} />
                                 Keamanan Akun
                             </h1>
                             <p style={{ fontSize: "13px", color: "var(--text-muted)", fontWeight: 500, marginTop: "4px" }}>Kelola keamanan dan privasi akun Anda.</p>
@@ -42,9 +42,9 @@ export default function SecurityPage() {
                     </div>
 
                     {/* Account Deletion Card */}
-                    <div style={{ background: "var(--error-muted)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "var(--radius-xl)", padding: "20px", position: "relative", overflow: "hidden" }}>
+                    <div style={{ background: "var(--error-muted)", border: "1px solid rgba(248,113,113,0.25)", borderRadius: "var(--radius-xl)", padding: "20px", position: "relative", overflow: "hidden" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "16px" }}>
-                            <div style={{ width: "44px", height: "44px", background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.4)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                            <div style={{ width: "44px", height: "44px", background: "rgba(248,113,113,0.12)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                                 <Trash2 style={{ width: "20px", height: "20px", color: "var(--error)" }} />
                             </div>
                             <div>
@@ -63,11 +63,11 @@ export default function SecurityPage() {
                                 style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--error)", fontWeight: 700, fontSize: "13px", background: "none", border: "none", cursor: "pointer", padding: 0, transition: "opacity 150ms ease" }}
                                 className="hover:opacity-70"
                             >
-                                <span style={{ borderBottom: "2px solid rgba(239,68,68,0.3)" }}>Ya, hapus akun MSBPSTORE saya</span>
+                                <span style={{ borderBottom: "2px solid rgba(248,113,113,0.3)" }}>Ya, hapus akun MSBPSTORE saya</span>
                                 <Trash2 style={{ width: "14px", height: "14px" }} />
                             </button>
                         ) : (
-                            <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "var(--radius-lg)", padding: "16px" }} className="space-y-4">
+                            <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.25)", borderRadius: "var(--radius-lg)", padding: "16px" }} className="space-y-4">
                                 <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
                                     <AlertTriangle style={{ width: "16px", height: "16px", color: "var(--error)", flexShrink: 0, marginTop: "1px" }} />
                                     <p style={{ fontSize: "13px", fontWeight: 700, color: "var(--error)", lineHeight: 1.5 }}>
@@ -82,12 +82,7 @@ export default function SecurityPage() {
                                     >
                                         {loading ? "MENGHAPUS..." : "YA, HAPUS AKUN"}
                                     </button>
-                                    <button
-                                        disabled={loading}
-                                        onClick={() => setShowConfirm(false)}
-                                        className="btn btn-ghost"
-                                        style={{ flex: 1, minWidth: "140px" }}
-                                    >
+                                    <button disabled={loading} onClick={() => setShowConfirm(false)} className="btn btn-ghost" style={{ flex: 1, minWidth: "140px" }}>
                                         BATALKAN
                                     </button>
                                 </div>
@@ -95,8 +90,8 @@ export default function SecurityPage() {
                         )}
                     </div>
 
-                    {/* Security Info Card */}
-                    <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-xl)", padding: "20px" }}>
+                    {/* Security Info */}
+                    <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-xl)", padding: "20px", boxShadow: "0 0 20px var(--accent-glow)" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                             <Lock style={{ width: "16px", height: "16px", color: "var(--accent-primary)" }} />
                             <h4 style={{ fontWeight: 700, fontSize: "13px", color: "var(--accent-primary)" }}>Informasi Keamanan</h4>
@@ -105,7 +100,6 @@ export default function SecurityPage() {
                             Untuk perubahan alamat email atau pemulihan akun yang hilang, silakan hubungi tim administrasi kami melalui WhatsApp Customer Service resmi kami.
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
