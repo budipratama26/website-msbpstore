@@ -97,10 +97,33 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Produk tidak ditemukan atau tidak aktif." }, { status: 404 });
         }
 
-        // 🛡️ SECURITY FIX: Unguessable Order ID (Cryptographically secure UUIDv4)
-        // Eliminates collision risk and prevents order scraping/IDOR.
-        // Format similar to Gemini URLs (e.g., f3f2eb5b65cc7abc123456789abcdef0)
-        const orderId = crypto.randomUUID().replace(/-/g, '');
+        // 🛡️ SECURITY FIX: Custom Alphanumeric Order ID (Anti-IDOR)
+        // Format: MSBP-[Initials]-[YYMMDD]-[4 Random Chars]
+        const generateOrderId = (productName: string) => {
+            const isoDate = new Date().toISOString();
+            const yy = isoDate.slice(2, 4);
+            const mm = isoDate.slice(5, 7);
+            const dd = isoDate.slice(8, 10);
+            const dateStr = `${yy}${mm}${dd}`;
+            
+            // Random 4 chars (hex string)
+            const randomStr = crypto.randomBytes(2).toString('hex').toUpperCase();
+            
+            // Get up to 2 initials from product name (e.g., "Mobile Legends" -> "ML")
+            const words = productName.split(' ').filter(w => w.length > 0);
+            let prefix = 'XX';
+            if (words.length >= 2) {
+                prefix = (words[0][0] + words[1][0]).toUpperCase();
+            } else if (words.length === 1 && words[0].length >= 2) {
+                prefix = words[0].substring(0, 2).toUpperCase();
+            } else if (words.length === 1) {
+                prefix = (words[0][0] + 'X').toUpperCase();
+            }
+            
+            return `MSBP-${prefix}-${dateStr}-${randomStr}`;
+        };
+        
+        const orderId = generateOrderId(product.name);
 
         let validCustomerId = null;
         if (session?.user?.id) {

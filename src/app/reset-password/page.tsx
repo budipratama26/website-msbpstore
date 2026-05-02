@@ -146,7 +146,7 @@ export default function ResetPasswordPage() {
                         <ResetPasswordForm />
                     </Suspense>
                 </div>
-                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "20px" }}>🔒 Transaksi aman &amp; terenkripsi</p>
+                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "20px" }}>Transaksi aman &amp; terenkripsi</p>
             </div>
         </div>
     );

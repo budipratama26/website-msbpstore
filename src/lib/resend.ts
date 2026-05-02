@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ─── Shared email wrapper ───────────────────────────────────────────────────
+// ─── Shared email wrapper ────────────────────────────────────────────────────
 const emailWrapper = (content: string) => `
 <!DOCTYPE html>
 <html lang="id">
@@ -11,29 +11,38 @@ const emailWrapper = (content: string) => `
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MSBP Store</title>
 </head>
-<body style="margin:0;padding:0;background:#0a0e17;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0e17;padding:40px 16px;">
+<body style="margin:0;padding:0;background:#06080f;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#06080f;padding:40px 16px;">
     <tr>
       <td align="center">
-        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
 
-          <!-- Header / Logo -->
+          <!-- Header / Brand -->
           <tr>
-            <td align="center" style="padding-bottom:28px;">
+            <td align="center" style="padding-bottom:24px;">
               <table cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="background:#3b82f6;border-radius:10px;padding:10px 16px;text-align:center;">
-                    <span style="color:#ffffff;font-size:15px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">MSBP STORE</span>
+                  <td style="padding:12px 0 4px;">
+                    <p style="margin:0;color:#7c85f0;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">MSBP STORE</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="width:48px;height:2px;background:#7c85f0;margin:0 auto;border-radius:2px;"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top:8px;">
+                    <p style="margin:0;color:#4d5a80;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-align:center;">Top Up Game & Voucher Digital</p>
                   </td>
                 </tr>
               </table>
-              <p style="color:#475569;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:10px 0 0;">Top Up Game &amp; Voucher Digital</p>
             </td>
           </tr>
 
           <!-- Card Body -->
           <tr>
-            <td style="background:#111827;border:1px solid #1e2d45;border-radius:12px;overflow:hidden;">
+            <td style="background:#0b0f1c;border:1px solid #1a2240;border-radius:12px;overflow:hidden;">
               ${content}
             </td>
           </tr>
@@ -41,11 +50,11 @@ const emailWrapper = (content: string) => `
           <!-- Footer -->
           <tr>
             <td align="center" style="padding:28px 0 0;">
-              <p style="color:#1e2d45;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:0;">
-                © 2026 MSBPSTORE · msbpstore.my.id
+              <p style="color:#1a2240;font-size:11px;font-weight:600;letter-spacing:1px;margin:0;">
+                2026 MSBPSTORE &middot; msbpstore.my.id
               </p>
-              <p style="color:#1e2d45;font-size:10px;font-weight:600;margin:4px 0 0;">
-                Pusat Top Up Game Terpercaya &amp; Termurah
+              <p style="color:#1a2240;font-size:10px;margin:4px 0 0;">
+                Pusat Top Up Game Terpercaya
               </p>
             </td>
           </tr>
@@ -58,38 +67,36 @@ const emailWrapper = (content: string) => `
 </html>
 `;
 
-// ─── 1. OTP Verification Email ──────────────────────────────────────────────
+// ─── 1. OTP Verification Email ───────────────────────────────────────────────
 export const sendVerificationEmail = async (email: string, name: string, otp: string) => {
     try {
         const html = emailWrapper(`
-          <!-- OTP Content -->
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-              <td style="padding:36px 36px 0;text-align:center;">
-                <div style="width:52px;height:52px;background:#1d3a6e;border:1px solid rgba(59,130,246,0.4);border-radius:10px;margin:0 auto 20px;display:inline-flex;align-items:center;justify-content:center;">
-                  <span style="font-size:24px;">🔐</span>
-                </div>
-                <h1 style="color:#f1f5f9;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin:0 0 8px;">Verifikasi Akun Anda</h1>
-                <p style="color:#475569;font-size:14px;line-height:1.6;margin:0;">Halo <strong style="color:#94a3b8;">${name}</strong>, selesaikan pendaftaran dengan kode OTP berikut.</p>
+              <td style="padding:40px 36px 0;text-align:center;">
+                <p style="margin:0 0 6px;color:#4d5a80;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Verifikasi Akun</p>
+                <h1 style="color:#eef0ff;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin:0 0 12px;">Selesaikan Pendaftaran Anda</h1>
+                <p style="color:#9ba4c4;font-size:14px;line-height:1.7;margin:0;">
+                  Halo <strong style="color:#eef0ff;">${name}</strong>, gunakan kode di bawah untuk memverifikasi akun Anda.
+                </p>
               </td>
             </tr>
             <tr>
-              <td style="padding:28px 36px;">
-                <!-- OTP Box -->
+              <td style="padding:32px 36px;">
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td align="center" style="background:#1a2235;border:1px solid #1e2d45;border-radius:10px;padding:28px 20px;">
-                      <p style="color:#475569;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 12px;">Kode Verifikasi</p>
-                      <span style="font-size:44px;font-weight:900;letter-spacing:14px;color:#f1f5f9;font-family:'Courier New',Courier,monospace;">${otp}</span>
-                      <p style="color:#3b82f6;font-size:12px;font-weight:700;margin:14px 0 0;">⏱ Berlaku 15 menit</p>
+                    <td align="center" style="background:#121830;border:1px solid #1a2240;border-radius:10px;padding:32px 20px;">
+                      <p style="color:#4d5a80;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 16px;">Kode Verifikasi</p>
+                      <span style="font-size:46px;font-weight:900;letter-spacing:16px;color:#eef0ff;font-family:'Courier New',Courier,monospace;">${otp}</span>
+                      <p style="color:#4d5a80;font-size:12px;font-weight:600;margin:16px 0 0;">Berlaku selama 15 menit</p>
                     </td>
                   </tr>
                 </table>
               </td>
             </tr>
             <tr>
-              <td style="padding:0 36px 32px;text-align:center;">
-                <p style="color:#475569;font-size:12px;line-height:1.7;margin:0;">
+              <td style="padding:0 36px 36px;text-align:center;border-top:1px solid #1a2240;">
+                <p style="color:#4d5a80;font-size:12px;line-height:1.8;margin:24px 0 0;">
                   Jika Anda tidak merasa mendaftar di MSBP Store, abaikan email ini.<br/>
                   Jangan bagikan kode ini kepada siapapun.
                 </p>
@@ -101,7 +108,7 @@ export const sendVerificationEmail = async (email: string, name: string, otp: st
         const data = await resend.emails.send({
             from: "MsbpStore <noreply@msbpstore.my.id>",
             to: email,
-            subject: "🔐 Kode Verifikasi MSBPSTORE",
+            subject: "Kode Verifikasi MSBPSTORE",
             html,
         });
 
@@ -117,26 +124,26 @@ export const sendVerificationEmail = async (email: string, name: string, otp: st
     }
 };
 
-// ─── 2. Order Invoice Email ──────────────────────────────────────────────────
+// ─── 2. Order Invoice Email ───────────────────────────────────────────────────
 export const sendOrderInvoice = async (email: string, orderData: any) => {
     try {
         const discountSection = orderData.discount && orderData.discount > 0 ? `
           <tr>
-            <td style="padding:10px 0;border-bottom:1px solid #1e2d45;">
+            <td style="padding:12px 20px;border-bottom:1px solid #1a2240;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="color:#475569;font-size:13px;font-weight:600;">Harga Asli</td>
-                  <td align="right" style="color:#475569;font-size:13px;font-weight:700;text-decoration:line-through;">Rp ${orderData.price.toLocaleString('id-ID')}</td>
+                  <td style="color:#4d5a80;font-size:13px;font-weight:600;">Harga Asli</td>
+                  <td align="right" style="color:#4d5a80;font-size:13px;font-weight:600;text-decoration:line-through;">Rp ${orderData.price.toLocaleString('id-ID')}</td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td style="padding:10px 0;border-bottom:1px solid #1e2d45;">
+            <td style="padding:12px 20px;border-bottom:1px solid #1a2240;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="color:#10b981;font-size:13px;font-weight:700;">🎟️ Diskon Voucher</td>
-                  <td align="right" style="color:#10b981;font-size:13px;font-weight:800;">-Rp ${orderData.discount.toLocaleString('id-ID')}</td>
+                  <td style="color:#34d399;font-size:13px;font-weight:700;">Diskon Voucher</td>
+                  <td align="right" style="color:#34d399;font-size:13px;font-weight:800;">-Rp ${orderData.discount.toLocaleString('id-ID')}</td>
                 </tr>
               </table>
             </td>
@@ -148,59 +155,55 @@ export const sendOrderInvoice = async (email: string, orderData: any) => {
             : orderData.price;
 
         const html = emailWrapper(`
-          <!-- Invoice Content -->
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-              <td style="padding:36px 36px 0;text-align:center;">
-                <div style="width:52px;height:52px;background:#1d3a6e;border:1px solid rgba(59,130,246,0.4);border-radius:10px;margin:0 auto 20px;display:inline-flex;align-items:center;justify-content:center;">
-                  <span style="font-size:24px;">🧾</span>
-                </div>
-                <h1 style="color:#f1f5f9;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin:0 0 6px;">Pesanan Dikonfirmasi!</h1>
-                <p style="color:#475569;font-size:13px;line-height:1.6;margin:0;">Ini adalah bukti pembayaran resmi Anda dari MSBP Store.</p>
+              <td style="padding:40px 36px 0;text-align:center;">
+                <p style="margin:0 0 6px;color:#4d5a80;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Invoice Pembayaran</p>
+                <h1 style="color:#eef0ff;font-size:22px;font-weight:800;letter-spacing:-0.5px;margin:0 0 10px;">Pesanan Dikonfirmasi</h1>
+                <p style="color:#9ba4c4;font-size:13px;line-height:1.7;margin:0;">Berikut adalah bukti pembayaran resmi Anda dari MSBP Store.</p>
               </td>
             </tr>
 
-            <!-- Order Details Table -->
             <tr>
               <td style="padding:28px 36px;">
-                <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a2235;border:1px solid #1e2d45;border-radius:10px;overflow:hidden;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#121830;border:1px solid #1a2240;border-radius:10px;overflow:hidden;">
                   <tr>
-                    <td style="padding:16px 20px;border-bottom:1px solid #1e2d45;">
+                    <td style="padding:12px 20px;border-bottom:1px solid #1a2240;">
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
-                          <td style="color:#475569;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Transaction ID</td>
-                          <td align="right" style="color:#94a3b8;font-size:12px;font-weight:800;font-family:monospace;">${orderData.orderId}</td>
+                          <td style="color:#4d5a80;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Transaction ID</td>
+                          <td align="right" style="color:#9ba4c4;font-size:12px;font-weight:800;font-family:monospace;">${orderData.orderId}</td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:16px 20px;border-bottom:1px solid #1e2d45;">
+                    <td style="padding:12px 20px;border-bottom:1px solid #1a2240;">
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
-                          <td style="color:#475569;font-size:13px;font-weight:600;">Produk</td>
-                          <td align="right" style="color:#f1f5f9;font-size:13px;font-weight:800;">${orderData.productName}</td>
+                          <td style="color:#4d5a80;font-size:13px;font-weight:600;">Produk</td>
+                          <td align="right" style="color:#eef0ff;font-size:13px;font-weight:800;">${orderData.productName}</td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding:16px 20px;border-bottom:1px solid #1e2d45;">
+                    <td style="padding:12px 20px;border-bottom:1px solid #1a2240;">
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
-                          <td style="color:#475569;font-size:13px;font-weight:600;">Target User</td>
-                          <td align="right" style="color:#f1f5f9;font-size:13px;font-weight:800;font-family:monospace;">${orderData.target}</td>
+                          <td style="color:#4d5a80;font-size:13px;font-weight:600;">Target User</td>
+                          <td align="right" style="color:#eef0ff;font-size:13px;font-weight:800;font-family:monospace;">${orderData.target}</td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                   ${discountSection}
                   <tr>
-                    <td style="padding:20px;background:#1d3a6e;border-top:1px solid rgba(59,130,246,0.3);">
+                    <td style="padding:18px 20px;background:#121830;border-top:2px solid #1a2240;">
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
-                          <td style="color:#94a3b8;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Total Bayar</td>
-                          <td align="right" style="color:#3b82f6;font-size:22px;font-weight:900;letter-spacing:-0.5px;">Rp ${totalAmount.toLocaleString('id-ID')}</td>
+                          <td style="color:#9ba4c4;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Total Bayar</td>
+                          <td align="right" style="color:#7c85f0;font-size:22px;font-weight:900;letter-spacing:-0.5px;">Rp ${totalAmount.toLocaleString('id-ID')}</td>
                         </tr>
                       </table>
                     </td>
@@ -209,27 +212,25 @@ export const sendOrderInvoice = async (email: string, orderData: any) => {
               </td>
             </tr>
 
-            <!-- Status Badge -->
             <tr>
               <td style="padding:0 36px;text-align:center;">
                 <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
                   <tr>
-                    <td style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);border-radius:6px;padding:8px 20px;">
-                      <span style="color:#10b981;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;">✅ Pembayaran Berhasil</span>
+                    <td style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.35);border-radius:6px;padding:8px 20px;">
+                      <span style="color:#34d399;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;">Pembayaran Berhasil</span>
                     </td>
                   </tr>
                 </table>
               </td>
             </tr>
 
-            <!-- CTA -->
             <tr>
               <td style="padding:28px 36px 36px;text-align:center;">
-                <p style="color:#475569;font-size:13px;line-height:1.7;margin:0 0 20px;">
-                  Pesanan sedang diproses secepat kilat. Have a great game! 🎮
+                <p style="color:#4d5a80;font-size:13px;line-height:1.7;margin:0 0 20px;">
+                  Pesanan Anda sedang diproses. Terima kasih telah berbelanja di MSBP Store.
                 </p>
-                <a href="https://msbpstore.my.id/status" style="display:inline-block;background:#3b82f6;color:#ffffff;padding:13px 28px;text-decoration:none;border-radius:8px;font-weight:800;font-size:13px;letter-spacing:0.5px;">
-                  Cek Status Pesanan →
+                <a href="https://msbpstore.my.id/status" style="display:inline-block;background:#7c85f0;color:#ffffff;padding:13px 28px;text-decoration:none;border-radius:8px;font-weight:700;font-size:13px;letter-spacing:0.5px;">
+                  Cek Status Pesanan
                 </a>
               </td>
             </tr>
@@ -239,7 +240,7 @@ export const sendOrderInvoice = async (email: string, orderData: any) => {
         await resend.emails.send({
             from: "MsbpStore <noreply@msbpstore.my.id>",
             to: email,
-            subject: `🧾 Invoice MSBPSTORE - ${orderData.orderId}`,
+            subject: `Invoice MSBPSTORE - ${orderData.orderId}`,
             html,
         });
 
@@ -250,47 +251,42 @@ export const sendOrderInvoice = async (email: string, orderData: any) => {
     }
 };
 
-// ─── 3. Reset Password Email ─────────────────────────────────────────────────
+// ─── 3. Reset Password Email ──────────────────────────────────────────────────
 export const sendResetPasswordLinkEmail = async (email: string, resetLink: string) => {
     try {
         const html = emailWrapper(`
-          <!-- Reset Password Content -->
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="padding:48px 36px 0;text-align:center;">
-                <!-- Icon Container with Gradient -->
-                <div style="width:64px;height:64px;background:linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(37,99,235,0.05) 100%);border:1px solid rgba(59,130,246,0.3);border-radius:16px;margin:0 auto 24px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(59,130,246,0.15);">
-                  <span style="font-size:28px;">🔐</span>
-                </div>
-                <h1 style="color:#ffffff;font-size:26px;font-weight:900;letter-spacing:-0.5px;margin:0 0 12px;font-family:'Segoe UI',sans-serif;">Reset Password Akun Anda</h1>
-                <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0;font-weight:500;">
-                  Kami menerima permintaan untuk mengatur ulang kata sandi pada akun MSBP Store Anda. Silakan klik tombol di bawah ini untuk melanjutkan proses.
+                <p style="margin:0 0 8px;color:#4d5a80;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Keamanan Akun</p>
+                <h1 style="color:#eef0ff;font-size:24px;font-weight:900;letter-spacing:-0.5px;margin:0 0 14px;">Reset Password Akun Anda</h1>
+                <p style="color:#9ba4c4;font-size:14px;line-height:1.75;margin:0;max-width:400px;display:block;margin-left:auto;margin-right:auto;">
+                  Kami menerima permintaan untuk mengatur ulang kata sandi pada akun MSBP Store Anda. Klik tombol di bawah untuk melanjutkan.
                 </p>
               </td>
             </tr>
             <tr>
-              <td style="padding:36px 36px;text-align:center;">
-                <!-- Main CTA Button -->
-                <a href="${resetLink}" style="display:inline-block;background:linear-gradient(to right, #2563eb, #3b82f6);color:#ffffff;padding:16px 42px;text-decoration:none;border-radius:12px;font-weight:800;font-size:15px;letter-spacing:0.5px;box-shadow:0 8px 24px rgba(37,99,235,0.3);text-transform:uppercase;border:1px solid rgba(255,255,255,0.1);">
+              <td style="padding:40px 36px;text-align:center;">
+                <a href="${resetLink}" style="display:inline-block;background:#7c85f0;color:#ffffff;padding:15px 40px;text-decoration:none;border-radius:8px;font-weight:800;font-size:14px;letter-spacing:0.5px;text-transform:uppercase;">
                   Atur Ulang Password
                 </a>
               </td>
             </tr>
             <tr>
-              <td style="padding:0 36px 28px;text-align:center;">
-                <p style="color:#64748b;font-size:12px;line-height:1.7;margin:0;font-weight:500;">
-                  Tautan ini bersifat rahasia dan hanya berlaku selama <strong style="color:#cbd5e1;">1 jam</strong>.<br/>Jika Anda tidak pernah meminta reset password, Anda dapat mengabaikan dan menghapus email ini dengan aman.
+              <td style="padding:0 36px 32px;text-align:center;border-top:1px solid #1a2240;">
+                <p style="color:#4d5a80;font-size:12px;line-height:1.8;margin:24px 0 0;">
+                  Tautan ini hanya berlaku selama <strong style="color:#9ba4c4;">1 jam</strong>.<br/>
+                  Jika Anda tidak meminta reset password, abaikan email ini.
                 </p>
               </td>
             </tr>
-            <!-- Fallback link box -->
             <tr>
               <td style="padding:0 36px 40px;">
-                <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(15,23,42,0.6);border:1px solid rgba(51,65,85,0.5);border-radius:12px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#121830;border:1px solid #1a2240;border-radius:8px;">
                   <tr>
-                    <td style="padding:18px 24px;text-align:left;">
-                      <p style="color:#94a3b8;font-size:11px;margin:0 0 8px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Tautan Alternatif</p>
-                      <p style="margin:0;"><a href="${resetLink}" style="color:#60a5fa;font-size:11px;word-break:break-all;font-family:monospace;text-decoration:none;line-height:1.5;">${resetLink}</a></p>
+                    <td style="padding:16px 20px;">
+                      <p style="color:#4d5a80;font-size:11px;margin:0 0 6px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Tautan Alternatif</p>
+                      <p style="margin:0;"><a href="${resetLink}" style="color:#7c85f0;font-size:11px;word-break:break-all;font-family:monospace;text-decoration:none;line-height:1.6;">${resetLink}</a></p>
                     </td>
                   </tr>
                 </table>
@@ -302,7 +298,7 @@ export const sendResetPasswordLinkEmail = async (email: string, resetLink: strin
         await resend.emails.send({
             from: "MsbpStore <noreply@msbpstore.my.id>",
             to: email,
-            subject: "🔑 Atur Ulang Password MSBPSTORE",
+            subject: "Atur Ulang Password MSBPSTORE",
             html,
         });
 

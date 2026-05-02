@@ -591,7 +591,7 @@ select.form-input {
 }
 
 .page-transition-enter {
-  animation: page-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: page-enter 160ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
@@ -630,7 +630,7 @@ select.form-input {
   background: var(--bg-surface);
   border: var(--border-default);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg), 0 0 40px var(--accent-glow);
+  box-shadow: var(--shadow-lg);
   width: 100%;
   max-width: 480px;
   padding: 24px;
@@ -670,7 +670,6 @@ select.form-input {
 .toggle input:checked + .toggle-slider {
   background: var(--accent-muted);
   border-color: var(--accent-border);
-  box-shadow: 0 0 10px var(--accent-glow);
 }
 .toggle input:checked + .toggle-slider::before {
   background: var(--accent-primary);

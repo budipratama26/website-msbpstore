@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Mail, Lock, User as UserIcon, CheckCircle2, ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { GoogleButton } from "@/components/GoogleButton";
 import BlackHoleLogo from "@/components/BlackHoleLogo";
+import { TermsModal } from "@/components/TermsModal";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -25,6 +26,7 @@ export default function RegisterPage() {
     const [pendingToken, setPendingToken] = useState("");
     const [isAgreed, setIsAgreed] = useState(false);
     const [agreedError, setAgreedError] = useState(false);
+    const [modalType, setModalType] = useState<"terms" | "privacy" | null>(null);
 
     const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -256,9 +258,9 @@ export default function RegisterPage() {
                                         </div>
                                         <span style={{ fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
                                             Dengan mendaftar, saya menyetujui{" "}
-                                            <Link href="/terms" style={{ color: "var(--accent-primary)", fontWeight: 600, textDecoration: "none" }}>Syarat Ketentuan</Link>
+                                            <button type="button" onClick={() => setModalType("terms")} style={{ color: "var(--accent-primary)", fontWeight: 600, background: "none", border: "none", padding: 0, cursor: "pointer", transition: "opacity 150ms" }} className="hover:opacity-75">Syarat Ketentuan</button>
                                             {" "}dan{" "}
-                                            <Link href="/privacy" style={{ color: "var(--accent-primary)", fontWeight: 600, textDecoration: "none" }}>Kebijakan Privasi</Link>
+                                            <button type="button" onClick={() => setModalType("privacy")} style={{ color: "var(--accent-primary)", fontWeight: 600, background: "none", border: "none", padding: 0, cursor: "pointer", transition: "opacity 150ms" }} className="hover:opacity-75">Kebijakan Privasi</button>
                                             {" "}MSBP Store.
                                         </span>
                                     </label>
@@ -371,11 +373,17 @@ export default function RegisterPage() {
                     </p>
                 )}
                 <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>
-                    🔒 Transaksi aman &amp; terenkripsi
+                    Transaksi aman &amp; terenkripsi
                 </p>
             </div>
 
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            
+            <TermsModal 
+                isOpen={modalType !== null} 
+                onClose={() => setModalType(null)} 
+                type={modalType} 
+            />
         </div>
     );
 }

@@ -106,7 +106,7 @@ export default function NotificationsPage() {
                                 {filter === "UNREAD" ? "Semua sudah dibaca!" : "Belum ada notifikasi"}
                             </h3>
                             <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-                                {filter === "UNREAD" ? "Kamu sudah up to date 🎉" : "Notifikasi akan muncul di sini"}
+                                {filter === "UNREAD" ? "Kamu sudah up to date" : "Notifikasi akan muncul di sini"}
                             </p>
                         </div>
                     ) : (

@@ -117,7 +117,7 @@ export default function RedeemPage() {
                                 textTransform: "uppercase",
                                 color: "var(--accent-primary)",
                             }}>
-                                +2 POIN TIAP TRANSAKSI 💎
+                                +2 POIN TIAP TRANSAKSI
                             </div>
                         </div>
                     </div>

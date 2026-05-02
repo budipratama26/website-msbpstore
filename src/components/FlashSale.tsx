@@ -62,7 +62,7 @@ export default function FlashSale() {
 
             {/* Right: CTA */}
             <div className="shrink-0">
-                <span className="text-[10px] sm:text-xs text-amber-400 font-bold hidden sm:block">🔥 Harga Spesial!</span>
+                <span className="text-[10px] sm:text-xs text-amber-400 font-bold hidden sm:block">Harga Spesial!</span>
             </div>
         </div>
     );

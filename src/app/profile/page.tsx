@@ -66,7 +66,7 @@ export default function ProfilePage() {
                             </p>
                             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginTop: "12px" }}>
                                 <span className="badge badge-primary">{(session?.user as any)?.role || "USER"}</span>
-                                <span className="badge badge-success">Verified Member 💎</span>
+                                <span className="badge badge-success">Verified Member</span>
                             </div>
                         </div>
                     </div>

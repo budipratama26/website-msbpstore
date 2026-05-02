@@ -202,7 +202,7 @@ export default function LoginPage() {
                         Daftar Gratis
                     </Link>
                 </p>
-                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>🔒 Transaksi aman &amp; terenkripsi</p>
+                <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)", marginTop: "8px" }}>Transaksi aman &amp; terenkripsi</p>
             </div>
 
             <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>

@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { ShieldCheck, FileText } from "lucide-react";
-import Link from "next/link";
+import { TermsModal } from "./TermsModal";
 
 export function TermsPrompt() {
     const { data: session } = useSession();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [modalType, setModalType] = useState<"terms" | "privacy" | null>(null);
 
     useEffect(() => {
         // Jangan tampilkan modal di halaman Syarat & Kebijakan agar bisa dibaca
@@ -65,7 +66,7 @@ export function TermsPrompt() {
                             style={{ marginTop: "4px", width: "16px", height: "16px", accentColor: "var(--accent-primary)", cursor: "pointer" }}
                         />
                         <label htmlFor="terms-check" style={{ fontSize: "13px", color: "var(--text-primary)", lineHeight: 1.6, cursor: "pointer" }}>
-                            Saya telah membaca dan menyetujui <Link href="/terms" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>Syarat Ketentuan</Link> serta <Link href="/privacy" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>Kebijakan Privasi</Link> MSBP Store.
+                            Saya telah membaca dan menyetujui <button type="button" onClick={(e) => { e.preventDefault(); setModalType("terms"); }} style={{ color: "var(--accent-primary)", background: "none", border: "none", padding: 0, cursor: "pointer" }}>Syarat Ketentuan</button> serta <button type="button" onClick={(e) => { e.preventDefault(); setModalType("privacy"); }} style={{ color: "var(--accent-primary)", background: "none", border: "none", padding: 0, cursor: "pointer" }}>Kebijakan Privasi</button> MSBP Store.
                         </label>
                     </div>
 
@@ -79,6 +80,12 @@ export function TermsPrompt() {
                     </button>
                 </>
             </div>
+            
+            <TermsModal 
+                isOpen={modalType !== null} 
+                onClose={() => setModalType(null)} 
+                type={modalType} 
+            />
         </div>
     );
 }

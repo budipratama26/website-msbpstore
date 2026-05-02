@@ -1,19 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { useEffect, useRef } from "react";
 import NotificationBell from "./NotificationBell";
 import BlackHoleLogo from "./BlackHoleLogo";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
-    const lastScrollY = useRef(0);
     const pathname = usePathname();
     const { data: session } = useSession();
 
@@ -29,20 +26,7 @@ export default function Navbar() {
         setIsOpen(false);
     }, [pathname]);
 
-    // Hide navbar on scroll down, show on scroll up
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentY = window.scrollY;
-            if (currentY > lastScrollY.current && currentY > 80) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
-            }
-            lastScrollY.current = currentY;
-        };
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+
 
     if (pathname?.startsWith("/admin")) return null;
 
@@ -58,8 +42,7 @@ export default function Navbar() {
                 position: "sticky",
                 top: 0,
                 zIndex: 100,
-                transform: isVisible ? "translateY(0)" : "translateY(-100%)",
-                transition: "transform 300ms cubic-bezier(0.4,0,0.2,1)",
+
             }}
             className="w-full shrink-0"
         >
