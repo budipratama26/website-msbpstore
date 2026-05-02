@@ -1,7 +1,8 @@
 "use client";
 
 import { ShieldCheck, Lock, X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface TermsModalProps {
     isOpen: boolean;
@@ -10,8 +11,11 @@ interface TermsModalProps {
 }
 
 export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
+    const [mounted, setMounted] = useState(false);
+
     // Prevent scrolling on background when modal is open
     useEffect(() => {
+        setMounted(true);
         if (isOpen) {
             document.body.style.overflow = "hidden";
         } else {
@@ -22,9 +26,9 @@ export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
         };
     }, [isOpen]);
 
-    if (!isOpen || !type) return null;
+    if (!isOpen || !type || !mounted) return null;
 
-    return (
+    return createPortal(
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
             {/* Backdrop */}
             <div 
@@ -136,6 +140,7 @@ export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }
