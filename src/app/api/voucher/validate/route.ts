@@ -2,36 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
-// ═══════════════════════════════════════════════════════════
-// RATE LIMITER: In-memory store to prevent voucher brute force
-// Limits: 5 attempts per IP per 60 seconds
-// ═══════════════════════════════════════════════════════════
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
-
-function isRateLimited(ip: string): boolean {
-    const now = Date.now();
-    const entry = rateLimitMap.get(ip);
-
-    // Cleanup expired entries periodically
-    if (rateLimitMap.size > 10000) {
-        for (const [key, val] of rateLimitMap) {
-            if (val.resetAt < now) rateLimitMap.delete(key);
-        }
-    }
-
-    if (!entry || entry.resetAt < now) {
-        rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
-        return false;
-    }
-
-    entry.count++;
-    if (entry.count > RATE_LIMIT_MAX) {
-        return true;
-    }
-    return false;
-}
+import { getClientIp } from "@/lib/utils";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 /**
  * POST /api/voucher/validate
@@ -40,11 +12,13 @@ function isRateLimited(ip: string): boolean {
  */
 export async function POST(req: Request) {
     try {
-        // Rate limiting by IP
-        const forwarded = req.headers.get("x-forwarded-for");
-        const ip = forwarded?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
+        // Robust Redis Rate limiting by anti-spoof IP
+        const ip = getClientIp(req);
+        
+        // Use 'auth' limit type which is strict (50 req / min)
+        const rl = await checkRateLimit(`ip:${ip}`, 'auth');
 
-        if (isRateLimited(ip)) {
+        if (!rl.allowed) {
             console.warn(`[VOUCHER LIMIT] IP ${ip} blocked (Brute-force protection)`);
             return NextResponse.json(
                 { valid: false, message: "Terlalu banyak percobaan. Coba lagi dalam 1 menit." },

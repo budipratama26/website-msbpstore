@@ -8,7 +8,13 @@ import { z } from "zod";
 const profileSchema = z.object({
     name: z.string().min(2).max(50).optional(),
     oldPassword: z.string().optional(),
-    newPassword: z.string().min(8).max(100).optional(),
+    newPassword: z.string()
+        .min(8, "Password minimal 8 karakter.")
+        .max(100)
+        .refine(val => !val || /[A-Z]/.test(val), "Password harus mengandung minimal 1 huruf besar.")
+        .refine(val => !val || /[a-z]/.test(val), "Password harus mengandung minimal 1 huruf kecil.")
+        .refine(val => !val || /[0-9]/.test(val), "Password harus mengandung minimal 1 angka.")
+        .optional(),
     confirmPassword: z.string().optional(),
 }).refine((data) => {
     if (data.newPassword && data.newPassword !== data.confirmPassword) {

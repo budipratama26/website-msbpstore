@@ -2,7 +2,16 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
+const setPasswordSchema = z.object({
+    password: z.string()
+        .min(8, "Password minimal 8 karakter.")
+        .max(100)
+        .refine(val => /[A-Z]/.test(val), "Password harus mengandung minimal 1 huruf besar.")
+        .refine(val => /[a-z]/.test(val), "Password harus mengandung minimal 1 huruf kecil.")
+        .refine(val => /[0-9]/.test(val), "Password harus mengandung minimal 1 angka."),
+});
 export async function POST(req: Request) {
     try {
         const session = await auth();
@@ -10,10 +19,14 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { password } = await req.json();
-        if (!password || password.length < 6) {
-            return NextResponse.json({ error: "Sandi minimal 6 karakter." }, { status: 400 });
+        const body = await req.json();
+        
+        const validation = setPasswordSchema.safeParse(body);
+        if (!validation.success) {
+            return NextResponse.json({ error: validation.error.issues[0].message }, { status: 400 });
         }
+        
+        const { password } = validation.data;
 
         const user = await prisma.user.findUnique({
             where: { id: BigInt(session.user.id) },

@@ -19,27 +19,17 @@ const checkoutSchema = z.object({
     voucherCode: z.string().max(50).optional(),
 });
 
-// ═══════════════════════════════════════════════════════════
-// IP RATE LIMITER: Prevent bots from mass-ordering
-// ═══════════════════════════════════════════════════════════
-const ipOrderLimit = new Map<string, { count: number; resetAt: number }>();
-function isIpRateLimited(ip: string): boolean {
-    const now = Date.now();
-    const entry = ipOrderLimit.get(ip);
-    if (!entry || entry.resetAt < now) {
-        ipOrderLimit.set(ip, { count: 1, resetAt: now + 10 * 60 * 1000 }); // 10 mins
-        return false;
-    }
-    entry.count++;
-    return entry.count > 20; // Increased to 20 orders per 10 mins for better UX
-}
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
     try {
         const ip = getClientIp(req);
-        if (isIpRateLimited(ip)) {
+        // Robust Redis checkout rate limit
+        const rl = await checkRateLimit(`ip:${ip}`, 'checkout');
+
+        if (!rl.allowed) {
             console.warn(`[CHECKOUT LIMIT] Identity ${ip} hit mass-order protection`);
-            return NextResponse.json({ error: "Terlalu banyak pesanan dari IP Anda. Tunggu 10 menit." }, { status: 429 });
+            return NextResponse.json({ error: "Terlalu banyak pesanan. Tunggu sebentar sebelum mencoba lagi." }, { status: 429 });
         }
 
         const session = await auth();
@@ -106,8 +96,8 @@ export async function POST(req: Request) {
             const dd = isoDate.slice(8, 10);
             const dateStr = `${yy}${mm}${dd}`;
             
-            // Random 4 chars (hex string)
-            const randomStr = crypto.randomBytes(2).toString('hex').toUpperCase();
+            // Random 8 chars (hex string) - Fixed IDOR vulnerability
+            const randomStr = crypto.randomBytes(4).toString('hex').toUpperCase();
             
             // Get up to 2 initials from product name (e.g., "Mobile Legends" -> "ML")
             const words = productName.split(' ').filter(w => w.length > 0);

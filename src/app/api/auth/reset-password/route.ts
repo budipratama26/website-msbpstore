@@ -8,7 +8,12 @@ import { getClientIp } from "@/lib/utils";
 // 16. Input Validation Schema
 const resetPasswordSchema = z.object({
     token: z.string().min(10).max(100),
-    newPassword: z.string().min(8).max(100),
+    newPassword: z.string()
+        .min(8, "Password minimal 8 karakter.")
+        .max(100)
+        .refine(val => /[A-Z]/.test(val), "Password harus mengandung minimal 1 huruf besar.")
+        .refine(val => /[a-z]/.test(val), "Password harus mengandung minimal 1 huruf kecil.")
+        .refine(val => /[0-9]/.test(val), "Password harus mengandung minimal 1 angka."),
 });
 
 export async function POST(req: Request) {

@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { setGlobalDispatcher, Agent } from "undici";
 import { logActivity } from "@/lib/activity";
+import redis from "@/lib/redis";
 
 // FIX OAUTH DELAY: Force Next.js Undici fetch to timeout fast on broken IPv6 routes
 // 5s is enough for normal APIs (Pakasir, etc) but still bypasses 30s IPv6 blackhole on VPS
@@ -42,6 +43,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 try {
                     const email = (credentials.email as string).toLowerCase().trim();
                     console.log(`Auth Attempt: ${email}`);
+
+                    // 🛡️ SECURITY: Brute Force Protection (Account Lockout)
+                    const failedKey = `login_fail:${email}`;
+                    const failedCount = await redis.get(failedKey);
+                    
+                    if (failedCount && parseInt(failedCount) >= 5) {
+                        console.warn(`[AUTH BRUTE FORCE] Blocked login attempts for ${email}`);
+                        // Returning null will generic "AccessDenied", throwing an error will pass the message
+                        throw new Error("Akun dikunci sementara karena terlalu banyak percobaan gagal. Tunggu 10 menit.");
+                    }
+
                     const user = await prisma.user.findUnique({
                         where: { email },
                     });
@@ -63,8 +75,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                     if (!isPasswordCorrect) {
                         console.log(`Auth Failed: Password mismatch for ${email}`);
+                        // Increment failed login attempt
+                        await redis.incr(failedKey);
+                        await redis.expire(failedKey, 600); // 10 mins penalty
                         return null;
                     }
+
+                    // Reset failed counter on successful login
+                    await redis.del(failedKey);
 
                     console.log(`Auth Success: ${email} (Role: ${user.role})`);
                     
