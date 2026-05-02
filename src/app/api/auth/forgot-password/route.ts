@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { sendResetPasswordLinkEmail } from "@/lib/resend";
 import { z } from "zod";
+import crypto from "crypto";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/utils";
 
 // 16. Input Validation Schema
 const forgotPasswordSchema = z.object({
@@ -10,6 +13,13 @@ const forgotPasswordSchema = z.object({
 
 export async function POST(req: Request) {
     try {
+        const ip = getClientIp(req);
+        const rl = await checkRateLimit(`ip:${ip}`, 'auth');
+        
+        if (!rl.allowed) {
+            return NextResponse.json({ error: "Terlalu banyak percobaan. Silakan tunggu beberapa saat." }, { status: 429 });
+        }
+
         const body = await req.json();
         
         // 16. Validate input with Zod
@@ -32,8 +42,8 @@ export async function POST(req: Request) {
             );
         }
 
-        // Generate dynamic token
-        const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        // Generate dynamic token - SECURE CRYPTOGRAPHIC RNG
+        const token = crypto.randomBytes(32).toString('hex');
         const expires = new Date(Date.now() + 900000); // 15 minutes
 
         await prisma.user.update({

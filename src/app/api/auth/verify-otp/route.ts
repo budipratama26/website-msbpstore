@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { verifyPendingToken } from "@/lib/tokens";
 import { logActivity } from "@/lib/activity";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/utils";
 
 // 16. Input Validation Schema
 const verifyOtpSchema = z.object({
@@ -12,6 +14,13 @@ const verifyOtpSchema = z.object({
 
 export async function POST(req: Request) {
     try {
+        const ip = getClientIp(req);
+        const rl = await checkRateLimit(`ip:${ip}`, 'auth');
+        
+        if (!rl.allowed) {
+            return NextResponse.json({ error: "Terlalu banyak percobaan. Silakan tunggu 1 menit." }, { status: 429 });
+        }
+
         const body = await req.json();
         
         // 16. Validate input with Zod
@@ -67,8 +76,7 @@ export async function POST(req: Request) {
             }
         });
 
-        // Track IP/Agent for accurate logging
-        const ip = req.headers.get("x-forwarded-for")?.split(',')[0].trim() || req.headers.get("x-real-ip") || undefined;
+        // Track User Agent for accurate logging
         const ua = req.headers.get("user-agent") || undefined;
         await logActivity("REGISTER", "Mendaftar akun baru via Email", newUser.id.toString(), ip, ua);
 

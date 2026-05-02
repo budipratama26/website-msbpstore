@@ -3,6 +3,7 @@ import { sendVerificationEmail } from "@/lib/resend";
 import { verifyPendingToken, signPendingToken } from "@/lib/tokens";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { getClientIp } from "@/lib/utils";
+import crypto from "crypto";
 
 export async function POST(req: Request) {
     try {
@@ -27,8 +28,8 @@ export async function POST(req: Request) {
 
         const { email, name, username, password } = data;
 
-        // 2. Generate new 6-digit OTP
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        // 2. Generate new 6-digit OTP - SECURE CRYPTOGRAPHIC RNG
+        const otpCode = crypto.randomInt(100000, 999999).toString();
 
         // 3. Buat token BARU dengan OTP baru (Data user tetap sama)
         const newPendingToken = signPendingToken({

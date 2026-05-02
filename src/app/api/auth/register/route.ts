@@ -5,6 +5,9 @@ import { sendVerificationEmail } from "@/lib/resend";
 import { signPendingToken } from "@/lib/tokens";
 import { z } from "zod";
 import { sanitizeHTML } from "@/lib/sanitize";
+import crypto from "crypto";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/utils";
 
 // 16. Input Validation Schema — Hardened password requirements
 const registerSchema = z.object({
@@ -21,6 +24,13 @@ const registerSchema = z.object({
 
 export async function POST(req: Request) {
     try {
+        const ip = getClientIp(req);
+        const rl = await checkRateLimit(`ip:${ip}`, 'auth');
+        
+        if (!rl.allowed) {
+            return NextResponse.json({ error: "Terlalu banyak permintaan pendaftaran. Silakan tunggu beberapa saat." }, { status: 429 });
+        }
+
         const body = await req.json();
         
         // 16. Validate input with Zod
@@ -49,8 +59,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Email atau username sudah digunakan." }, { status: 409 });
         }
 
-        // Generate 6-digit OTP
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        // Generate 6-digit OTP - SECURE CRYPTOGRAPHIC RNG
+        const otpCode = crypto.randomInt(100000, 999999).toString();
 
         // Hash password before storing in token
         const hashedPassword = await bcrypt.hash(password, 10);

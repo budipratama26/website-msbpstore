@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/utils";
 
 // 16. Input Validation Schema
 const resetPasswordSchema = z.object({
@@ -11,6 +13,13 @@ const resetPasswordSchema = z.object({
 
 export async function POST(req: Request) {
     try {
+        const ip = getClientIp(req);
+        const rl = await checkRateLimit(`ip:${ip}`, 'auth');
+        
+        if (!rl.allowed) {
+            return NextResponse.json({ error: "Terlalu banyak percobaan. Silakan tunggu beberapa saat." }, { status: 429 });
+        }
+
         const body = await req.json();
         
         // 16. Validate input with Zod
