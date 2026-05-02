@@ -32,6 +32,14 @@ export default function Navbar() {
 
     return (
         <>
+            {/* Mobile Overlay */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 z-[90] lg:hidden"
+                    style={{ background: "rgba(6,8,15,0.5)", backdropFilter: "blur(2px)" }}
+                    onClick={() => setIsOpen(false)}
+                />
+            )}
         <header
             style={{
                 background: "rgba(6,8,15,0.88)",
@@ -313,15 +321,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Overlay */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 z-[95] lg:hidden"
-                    style={{ background: "rgba(6,8,15,0.5)", backdropFilter: "blur(2px)" }}
-                    onClick={() => setIsOpen(false)}
-                />
-            )}
-
             {/* Mobile Menu — smooth slide */}
             <div
                 style={{
@@ -336,9 +335,11 @@ export default function Navbar() {
                     boxShadow: "var(--shadow-lg)",
                     zIndex: 99,
                     overflow: "hidden",
-                    maxHeight: isOpen ? "500px" : "0px",
-                    transition: "max-height 320ms cubic-bezier(0.4,0,0.2,1), opacity 250ms ease",
+                    transformOrigin: "top center",
+                    transform: isOpen ? "scaleY(1)" : "scaleY(0)",
+                    transition: "transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease, visibility 250ms",
                     opacity: isOpen ? 1 : 0,
+                    visibility: isOpen ? "visible" : "hidden",
                     pointerEvents: isOpen ? "auto" : "none",
                 }}
                 className="lg:hidden"

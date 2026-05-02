@@ -6,19 +6,21 @@
 export const ShimmerStyle = () => (
     <style dangerouslySetInnerHTML={{ __html: `
         @keyframes sk-shimmer {
-            0%   { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0%   { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         .sk {
-            background: linear-gradient(
-                90deg,
-                #1a2235 0%,
-                #242f45 50%,
-                #1a2235 100%
-            );
-            background-size: 200% 100%;
-            animation: sk-shimmer 1.5s infinite linear;
+            position: relative;
+            overflow: hidden;
+            background: #1a2235;
             border-radius: 6px;
+        }
+        .sk::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            animation: sk-shimmer 1.2s infinite linear;
         }
     `}} />
 );
