@@ -25,7 +25,7 @@ export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
     if (!isOpen || !type) return null;
 
     return (
-        <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
             {/* Backdrop */}
             <div 
                 style={{ position: "absolute", inset: 0, background: "var(--bg-overlay)", backdropFilter: "blur(4px)", cursor: "pointer" }} 
@@ -45,6 +45,7 @@ export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
                     boxShadow: "var(--shadow-xl)", 
                     display: "flex",
                     flexDirection: "column",
+                    overflow: "hidden",
                     animation: "fade-in 200ms ease" 
                 }}
             >
@@ -71,7 +72,7 @@ export function TermsModal({ isOpen, onClose, type }: TermsModalProps) {
                 </div>
 
                 {/* Scrollable Body */}
-                <div style={{ padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "24px" }}>
+                <div style={{ flex: 1, minHeight: 0, padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "24px" }}>
                     {type === "terms" ? (
                         <>
                             <div>
