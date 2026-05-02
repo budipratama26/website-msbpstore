@@ -21,7 +21,7 @@ export default function PromoBar() {
         return (
             <div
                 suppressHydrationWarning
-                style={{ width: "100%", height: "32px", background: "var(--bg-surface)", flexShrink: 0, borderBottom: "1px solid var(--bg-border)" }}
+                style={{ width: "100%", height: "32px", position: "relative", zIndex: 100, background: "var(--bg-surface)", flexShrink: 0, borderBottom: "1px solid var(--bg-border)" }}
             />
         );
     }
@@ -37,6 +37,7 @@ export default function PromoBar() {
         <div style={{
             width: "100%",
             position: "relative",
+            zIndex: 100,
             background: "var(--bg-surface)",
             borderBottom: "1px solid var(--bg-border)",
             flexShrink: 0,
