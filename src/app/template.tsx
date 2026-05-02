@@ -1,5 +1,9 @@
 "use client";
 
 export default function Template({ children }: { children: React.ReactNode }) {
-    return <>{children}</>;
+    return (
+        <div className="page-transition-enter">
+            {children}
+        </div>
+    );
 }

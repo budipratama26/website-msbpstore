@@ -26,8 +26,6 @@ export default function ProfilePage() {
     return (
         <div style={{ minHeight: "calc(100vh - var(--header-height, 60px))", background: "var(--bg-base)", padding: "24px 16px 40px", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", overflow: "hidden" }}>
 
-            {/* Bg glow */}
-            <div style={{ position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)", width: "400px", height: "200px", background: "radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)", pointerEvents: "none" }} />
 
             <div style={{ width: "100%", maxWidth: "520px", position: "relative", zIndex: 1 }}>
                 <div className="card space-y-5 animate-fade-in" style={{ padding: "24px 24px 28px", position: "relative" }}>
@@ -56,7 +54,7 @@ export default function ProfilePage() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 marginBottom: "16px",
-                                boxShadow: "0 0 24px var(--accent-glow)",
+                                boxShadow: "none",
                             }}>
                                 <UserIcon style={{ width: "32px", height: "32px", color: "#fff" }} />
                             </div>
@@ -117,7 +115,7 @@ export default function ProfilePage() {
                                     className="hover:bg-[var(--bg-elevated)] group"
                                 >
                                     <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                                        <div style={{ width: "38px", height: "38px", background: "var(--bg-elevated)", border: "var(--border-default)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "border-color 150ms ease, background 150ms ease, box-shadow 150ms ease" }} className="group-hover:border-[var(--accent-border)] group-hover:bg-[var(--accent-subtle)] group-hover:shadow-[0_0_10px_var(--accent-glow)]">
+                                        <div style={{ width: "38px", height: "38px", background: "var(--bg-elevated)", border: "var(--border-default)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "border-color 180ms ease, background 180ms ease" }} className="group-hover:border-[var(--accent-border)] group-hover:bg-[var(--accent-subtle)]">
                                             {item.icon}
                                         </div>
                                         <div>

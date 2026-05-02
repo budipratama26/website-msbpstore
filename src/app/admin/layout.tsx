@@ -62,20 +62,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 overflow: "hidden",
             }}
         >
-            {/* Mobile Overlay */}
-            {sidebarOpen && (
-                <div
-                    style={{
-                        position: "fixed",
-                        inset: 0,
-                        background: "rgba(10,14,23,0.75)",
-                        backdropFilter: "blur(2px)",
-                        zIndex: 45,
-                    }}
-                    className="lg:hidden"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
+            {/* Mobile Overlay — smooth fade */}
+            <div
+                style={{
+                    position: "fixed",
+                    inset: 0,
+                    background: "rgba(6,8,15,0.6)",
+                    backdropFilter: "blur(3px)",
+                    zIndex: 45,
+                    opacity: sidebarOpen ? 1 : 0,
+                    pointerEvents: sidebarOpen ? "auto" : "none",
+                    transition: "opacity 280ms ease",
+                }}
+                className="lg:hidden"
+                onClick={() => setSidebarOpen(false)}
+            />
 
             {/* ── Sidebar ── */}
             <aside
@@ -86,11 +87,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     left: 0,
                     zIndex: 50,
                     background: "var(--bg-surface)",
-                    borderRight: "var(--border-default)",
+                    borderRight: "1px solid var(--bg-border)",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "transform 300ms ease, width 300ms ease",
-                    width: sidebarOpen ? "240px" : "0px",
+                    transition: "transform 300ms cubic-bezier(0.4,0,0.2,1), box-shadow 300ms ease",
+                    width: "240px",
                     transform: sidebarOpen ? "translateX(0)" : "translateX(-240px)",
                     boxShadow: sidebarOpen ? "var(--shadow-lg)" : "none",
                     overflow: "hidden",
@@ -107,7 +108,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         padding: "0 16px",
                         gap: "10px",
                         flexShrink: 0,
-                        borderBottom: "var(--border-default)",
+                        borderBottom: "1px solid var(--bg-border)",
                         textDecoration: "none",
                     }}
                     className="group"
@@ -140,14 +141,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     display: "flex",
                                     alignItems: "center",
                                     gap: "10px",
-                                    padding: "10px 12px",
+                                    padding: "9px 12px",
                                     borderRadius: "var(--radius-md)",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
+                                    fontSize: "13px",
+                                    fontWeight: active ? 600 : 500,
                                     color: active ? "var(--accent-primary)" : "var(--text-secondary)",
-                                    background: active ? "var(--accent-muted)" : "transparent",
+                                    background: active ? "var(--accent-subtle)" : "transparent",
                                     borderLeft: active ? "2px solid var(--accent-primary)" : "2px solid transparent",
-                                    transition: "background 150ms ease, color 150ms ease, border-color 150ms ease",
+                                    transition: "background 180ms ease, color 180ms ease, border-color 180ms ease",
                                     textDecoration: "none",
                                     whiteSpace: "nowrap",
                                 }}
@@ -169,7 +170,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </nav>
 
                 {/* Logout */}
-                <div style={{ padding: "12px", borderTop: "var(--border-default)" }}>
+                <div style={{ padding: "12px", borderTop: "1px solid var(--bg-border)" }}>
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
                         title="Keluar"
@@ -206,8 +207,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <header
                     style={{
                         height: "56px",
-                        borderBottom: "var(--border-default)",
-                        background: "var(--bg-surface)",
+                        borderBottom: "1px solid var(--bg-border)",
+                        background: "rgba(6,8,15,0.88)",
+                        backdropFilter: "blur(16px)",
+                        WebkitBackdropFilter: "blur(16px)",
                         position: "sticky",
                         top: 0,
                         zIndex: 40,
@@ -267,13 +270,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     width: "34px",
                                     height: "34px",
                                     borderRadius: "50%",
-                                    background: "var(--accent-muted)",
-                                    border: "1px solid var(--accent-border)",
+                                    background: "var(--bg-elevated)",
+                                    border: "1px solid var(--bg-border)",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    fontWeight: 700,
-                                    color: "var(--accent-primary)",
+                                    fontWeight: 600,
+                                    color: "var(--text-secondary)",
                                     fontSize: "13px",
                                     overflow: "hidden",
                                     flexShrink: 0,

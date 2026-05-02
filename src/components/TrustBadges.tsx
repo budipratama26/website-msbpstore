@@ -41,36 +41,36 @@ export default function TrustBadges() {
                     key={i}
                     style={{
                         background: "var(--bg-surface)",
-                        border: "var(--border-default)",
+                        border: "1px solid var(--bg-border)",
                         borderRadius: "var(--radius-lg)",
-                        padding: "16px",
+                        padding: "16px 14px",
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "center",
-                        textAlign: "center",
-                        gap: "10px",
-                        transition: "border-color 150ms ease",
+                        alignItems: "flex-start",
+                        gap: "12px",
+                        transition: "border-color 200ms ease, transform 200ms ease",
                     }}
-                    className="hover:border-[var(--accent-border)]"
+                    className="hover:border-[var(--bg-elevated)] hover:-translate-y-0.5"
                 >
                     <div
                         style={{
-                            width: "40px",
-                            height: "40px",
+                            width: "36px",
+                            height: "36px",
                             background: badge.iconBg,
                             borderRadius: "var(--radius-md)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            flexShrink: 0,
                         }}
                     >
-                        <badge.icon style={{ width: "18px", height: "18px", color: badge.iconColor }} />
+                        <badge.icon style={{ width: "17px", height: "17px", color: badge.iconColor }} />
                     </div>
                     <div>
-                        <h3 style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.3, marginBottom: "4px" }}>
+                        <h3 style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.3, marginBottom: "3px" }}>
                             {badge.title}
                         </h3>
-                        <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500, lineHeight: 1.4 }}>{badge.desc}</p>
+                        <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 400, lineHeight: 1.5 }}>{badge.desc}</p>
                     </div>
                 </div>
             ))}

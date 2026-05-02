@@ -91,7 +91,7 @@ export default function SecurityPage() {
                     </div>
 
                     {/* Security Info */}
-                    <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-xl)", padding: "20px", boxShadow: "0 0 20px var(--accent-glow)" }}>
+                    <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-xl)", padding: "20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                             <Lock style={{ width: "16px", height: "16px", color: "var(--accent-primary)" }} />
                             <h4 style={{ fontWeight: 700, fontSize: "13px", color: "var(--accent-primary)" }}>Informasi Keamanan</h4>

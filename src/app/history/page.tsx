@@ -117,7 +117,7 @@ export default function OrderHistoryPage() {
 
     if (sessionStatus === "unauthenticated") return (
         <div style={{ minHeight: "100vh", background: "var(--bg-base)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px 24px", textAlign: "center" }}>
-            <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "50%", width: "80px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px", boxShadow: "0 0 24px var(--accent-glow)" }}>
+            <div style={{ background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "50%", width: "80px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
                 <Receipt style={{ width: "36px", height: "36px", color: "var(--accent-primary)" }} />
             </div>
             <h1 style={{ fontSize: "28px", fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em", marginBottom: "12px" }}>Akses Terbatas</h1>
@@ -220,7 +220,7 @@ export default function OrderHistoryPage() {
             {/* QR Modal */}
             {selectedQrOrder && (
                 <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-overlay)", backdropFilter: "blur(6px)", padding: "16px" }}>
-                    <div style={{ background: "var(--bg-surface)", border: "var(--border-default)", borderRadius: "var(--radius-xl)", width: "100%", maxWidth: "380px", overflow: "hidden", boxShadow: "var(--shadow-lg), 0 0 40px var(--accent-glow)", position: "relative" }} className="animate-scale-in">
+                    <div style={{ background: "var(--bg-surface)", border: "var(--border-default)", borderRadius: "var(--radius-xl)", width: "100%", maxWidth: "380px", overflow: "hidden", boxShadow: "var(--shadow-lg)", position: "relative" }} className="animate-scale-in">
                         <div style={{ background: "var(--bg-elevated)", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "var(--border-default)" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 <div style={{ width: "34px", height: "34px", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -259,7 +259,7 @@ export default function OrderHistoryPage() {
                                         Rp {selectedQrOrder.price.toLocaleString("id-ID")}
                                     </div>
                                 </div>
-                                <div style={{ background: "var(--bg-elevated)", padding: "12px", borderRadius: "var(--radius-lg)", border: `2px dashed ${timeLeft === 0 ? "var(--bg-border)" : "var(--accent-border)"}`, marginBottom: "20px", opacity: timeLeft === 0 ? 0.4 : 1, position: "relative", boxShadow: timeLeft > 0 ? "0 0 20px var(--accent-glow)" : "none" }}>
+                                <div style={{ background: "var(--bg-elevated)", padding: "12px", borderRadius: "var(--radius-lg)", border: `2px dashed ${timeLeft === 0 ? "var(--bg-border)" : "var(--accent-border)"}`, marginBottom: "20px", opacity: timeLeft === 0 ? 0.4 : 1, position: "relative" }}>
                                     <div style={{ width: "176px", height: "176px", position: "relative" }}>
                                         <img src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(selectedQrOrder.paymentData || "")}`} alt="QRIS Code" style={{ width: "100%", height: "100%", objectFit: "contain", filter: timeLeft === 0 ? "grayscale(1)" : "none" }} />
                                         {timeLeft === 0 && (

@@ -87,7 +87,7 @@ function ResetPasswordForm() {
     return (
         <div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "24px", marginTop: "32px" }}>
-                <div style={{ width: "52px", height: "52px", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-lg)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px", boxShadow: "0 0 20px var(--accent-glow)" }}>
+                <div style={{ width: "52px", height: "52px", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-lg)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
                     <ShieldCheck style={{ width: "22px", height: "22px", color: "var(--accent-primary)" }} />
                 </div>
                 <h1 style={{ fontSize: "20px", fontWeight: 800, letterSpacing: "-0.02em", color: "var(--text-primary)", textAlign: "center", marginBottom: "6px" }}>Reset Password</h1>
@@ -137,9 +137,8 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
     return (
         <div style={{ minHeight: "calc(100vh - var(--header-height, 60px))", background: "var(--bg-base)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 16px", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)", width: "400px", height: "200px", background: "radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div style={{ width: "100%", maxWidth: "420px", position: "relative", zIndex: 1 }}>
-                <div className="card animate-fade-in" style={{ padding: "24px 28px 32px", position: "relative", boxShadow: "var(--shadow-lg), 0 0 40px var(--accent-glow)" }}>
+                <div className="card animate-fade-in" style={{ padding: "24px 28px 32px", position: "relative", boxShadow: "var(--shadow-lg)" }}>
                     <Link href="/login" className="back-btn" style={{ position: "absolute", top: "20px", left: "20px", zIndex: 10 }} title="Kembali ke Login">
                         <ChevronLeft style={{ width: "18px", height: "18px" }} />
                     </Link>

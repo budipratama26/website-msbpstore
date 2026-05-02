@@ -14,13 +14,13 @@
   --bg-border:    #1a2240;   /* Border subtle */
   --bg-overlay:   rgba(6,8,15,0.88);
 
-  /* === ACCENT INDIGO (beda dari blue biasa, bukan neon purple) === */
-  --accent-primary:  #818cf8;          /* Soft indigo — premium, distinct */
-  --accent-hover:    #6366f1;          /* Deeper indigo hover */
-  --accent-muted:    rgba(99,102,241,0.12);
-  --accent-subtle:   rgba(129,140,248,0.06);
-  --accent-border:   rgba(129,140,248,0.28);
-  --accent-glow:     rgba(99,102,241,0.18);
+  /* === ACCENT INDIGO === */
+  --accent-primary:  #7c85f0;
+  --accent-hover:    #5f63d8;
+  --accent-muted:    rgba(99,102,241,0.10);
+  --accent-subtle:   rgba(129,140,248,0.05);
+  --accent-border:   rgba(129,140,248,0.20);
+  --accent-glow:     rgba(99,102,241,0.10);
 
   /* === TEXT (slightly cool-tinted untuk koherensi) === */
   --text-primary:   #eef0ff;   /* Cool white — cocok sama indigo */
@@ -80,11 +80,11 @@
   --border-accent:  1px solid var(--accent-border);
   --border-error:   1px solid var(--error);
 
-  /* === SHADOWS (deeper karena base lebih gelap) === */
-  --shadow-sm:         0 1px 4px rgba(0,0,0,0.5);
-  --shadow-md:         0 4px 16px rgba(0,0,0,0.6);
-  --shadow-lg:         0 8px 32px rgba(0,0,0,0.7);
-  --shadow-card-hover: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px var(--accent-border), 0 0 20px var(--accent-glow);
+  /* === SHADOWS === */
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg:         0 8px 28px rgba(0,0,0,0.6);
+  --shadow-card-hover: 0 6px 24px rgba(0,0,0,0.5), 0 0 0 1px var(--accent-border);
 
   /* === LAYOUT === */
   --header-height: 60px;
@@ -194,13 +194,13 @@ body {
   border: var(--border-default);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
   cursor: pointer;
 }
 .card-interactive:hover {
   border-color: var(--accent-border);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .card-p { padding: 16px; }
@@ -306,16 +306,16 @@ select.form-input {
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
   color: #fff;
-  box-shadow: 0 2px 12px var(--accent-glow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #9099fa 0%, var(--accent-primary) 100%);
+  background: linear-gradient(135deg, #8b93f5 0%, var(--accent-primary) 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px var(--accent-glow);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
 }
 .btn-primary:active:not(:disabled) {
-  transform: scale(0.96);
-  box-shadow: 0 1px 8px var(--accent-glow);
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
 .btn-secondary {
@@ -326,7 +326,7 @@ select.form-input {
 .btn-secondary:hover:not(:disabled) {
   border-color: var(--accent-border);
   background: var(--bg-elevated);
-  box-shadow: 0 0 12px var(--accent-glow);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .btn-ghost {
@@ -395,9 +395,9 @@ select.form-input {
 .back-btn:hover {
   border-color: var(--accent-border);
   color: var(--text-primary);
-  box-shadow: 0 0 12px var(--accent-glow);
+  box-shadow: var(--shadow-sm);
 }
-.back-btn:active { transform: scale(0.94); }
+.back-btn:active { transform: scale(0.95); }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    PAGE HEADER
@@ -564,23 +564,40 @@ select.form-input {
    ANIMATIONS
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in-fast {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(3px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: scale(1); }
 }
 
-.animate-fade-in      { animation: fade-in 220ms ease forwards; }
-.animate-fade-in-fast { animation: fade-in-fast 150ms ease forwards; }
-.animate-scale-in     { animation: scale-in 200ms ease forwards; }
+/* Page transition — triggered by template.tsx wrapper */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-enter {
+  animation: page-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
+}
+
+.animate-fade-in      { animation: fade-in 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-fade-in-fast { animation: fade-in-fast 180ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-scale-in     { animation: scale-in 200ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
 @keyframes promo-scroll {
   0%   { transform: translateX(100%); }
@@ -588,12 +605,11 @@ select.form-input {
 }
 .promo-scroll { animation: promo-scroll 22s linear infinite; }
 
-/* Indigo pulse — dipakai di elemen penting */
 @keyframes indigo-pulse {
   0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
-  50%       { box-shadow: 0 0 0 6px transparent; }
+  50%       { box-shadow: 0 0 0 4px transparent; }
 }
-.pulse-indigo { animation: indigo-pulse 2.4s ease-in-out infinite; }
+.pulse-indigo { animation: indigo-pulse 2.8s ease-in-out infinite; }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    MODAL / DIALOG

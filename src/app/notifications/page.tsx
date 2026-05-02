@@ -70,7 +70,7 @@ export default function NotificationsPage() {
 
                     {/* Header */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "24px", marginTop: "36px" }}>
-                        <div style={{ width: "52px", height: "52px", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-lg)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px", boxShadow: "0 0 20px var(--accent-glow)" }}>
+                        <div style={{ width: "52px", height: "52px", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", borderRadius: "var(--radius-lg)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
                             <Bell style={{ width: "22px", height: "22px", color: "var(--accent-primary)" }} />
                         </div>
                         <h1 style={{ fontSize: "18px", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--text-primary)", textAlign: "center", marginBottom: "6px" }}>Notifikasi</h1>
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                style={{ padding: "6px 16px", borderRadius: "var(--radius-full)", fontSize: "12px", fontWeight: 600, border: "none", cursor: "pointer", transition: "all 180ms ease", background: filter === f ? "var(--accent-primary)" : "var(--bg-elevated)", color: filter === f ? "#fff" : "var(--text-muted)", boxShadow: filter === f ? "0 0 12px var(--accent-glow)" : "none" }}
+                                style={{ padding: "6px 16px", borderRadius: "var(--radius-full)", fontSize: "12px", fontWeight: 600, border: "none", cursor: "pointer", transition: "all 200ms ease", background: filter === f ? "var(--accent-primary)" : "var(--bg-elevated)", color: filter === f ? "#fff" : "var(--text-muted)" }}
                             >
                                 {f === "ALL" ? "Semua" : `Belum Dibaca${unreadCount > 0 ? ` (${unreadCount})` : ""}`}
                             </button>
@@ -118,11 +118,10 @@ export default function NotificationsPage() {
                                     <div
                                         key={notif.id}
                                         onClick={() => isUnread && markAsRead(notif.id)}
-                                        style={{ position: "relative", display: "flex", gap: "14px", padding: "16px", borderRadius: "var(--radius-xl)", border: `1px solid ${isUnread ? cfg.border : "var(--bg-border)"}`, background: isUnread ? cfg.bg : "var(--bg-elevated)", cursor: isUnread ? "pointer" : "default", transition: "border-color 150ms ease, background 150ms ease, box-shadow 150ms ease" }}
-                                        className={isUnread ? "hover:shadow-[0_0_12px_var(--accent-glow)]" : ""}
+                                        style={{ position: "relative", display: "flex", gap: "14px", padding: "16px", borderRadius: "var(--radius-xl)", border: `1px solid ${isUnread ? cfg.border : "var(--bg-border)"}`, background: isUnread ? cfg.bg : "var(--bg-elevated)", cursor: isUnread ? "pointer" : "default", transition: "border-color 200ms ease, background 200ms ease" }}
                                     >
                                         {isUnread && (
-                                            <div style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)", width: "5px", height: "5px", borderRadius: "50%", background: "var(--accent-primary)", boxShadow: "0 0 6px var(--accent-primary)" }} />
+                                            <div style={{ position: "absolute", left: "8px", top: "50%", transform: "translateY(-50%)", width: "5px", height: "5px", borderRadius: "50%", background: "var(--accent-primary)" }} />
                                         )}
                                         <div style={{ width: "40px", height: "40px", borderRadius: "var(--radius-lg)", border: `1px solid ${cfg.border}`, background: cfg.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: cfg.color }}>
                                             {cfg.icon}

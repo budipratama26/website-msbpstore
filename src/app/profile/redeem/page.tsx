@@ -73,20 +73,9 @@ export default function RedeemPage() {
                             border: "1px solid var(--accent-border)",
                             position: "relative",
                             overflow: "hidden",
-                            boxShadow: "0 0 40px var(--accent-glow)",
+                        boxShadow: "var(--shadow-md)",
                         }}
                     >
-                        {/* Decorative glow */}
-                        <div style={{
-                            position: "absolute",
-                            top: "-40px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            width: "200px",
-                            height: "100px",
-                            background: "radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)",
-                            pointerEvents: "none",
-                        }} />
 
                         <div style={{ position: "relative", zIndex: 1 }}>
                             <Coins style={{
@@ -145,7 +134,7 @@ export default function RedeemPage() {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                boxShadow: "0 0 12px var(--accent-glow)",
+                                boxShadow: "none",
                             }}>
                                 <Ticket style={{ width: "20px", height: "20px", color: "var(--accent-primary)" }} />
                             </div>

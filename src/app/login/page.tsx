@@ -50,9 +50,6 @@ export default function LoginPage() {
                 overflow: "hidden",
             }}
         >
-            {/* Background glow decorations */}
-            <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "500px", height: "300px", background: "radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: "-60px", right: "-60px", width: "300px", height: "300px", background: "radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
 
             <div style={{ width: "100%", maxWidth: "420px", position: "relative", zIndex: 1 }}>
 
@@ -62,7 +59,7 @@ export default function LoginPage() {
                         background: "var(--bg-surface)",
                         border: "var(--border-default)",
                         borderRadius: "var(--radius-xl)",
-                        boxShadow: "var(--shadow-lg), 0 0 40px var(--accent-glow)",
+                    boxShadow: "var(--shadow-lg)",
                         padding: "28px 28px 32px",
                         position: "relative",
                     }}
@@ -86,7 +83,7 @@ export default function LoginPage() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 marginBottom: "16px",
-                                boxShadow: "0 0 20px var(--accent-glow)",
+                                boxShadow: "none",
                             }}
                         >
                             <BlackHoleLogo size="sm" />

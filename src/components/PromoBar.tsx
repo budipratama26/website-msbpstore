@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function PromoBar() {
-    // Start VISIBLE by default → layout is correct on first paint
-    // Then hide if previously dismissed (tiny flash, but no blank-page bug)
     const [dismissed, setDismissed] = useState(false);
     const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
@@ -17,15 +15,13 @@ export default function PromoBar() {
         if (wasDismissed) setDismissed(true);
     }, []);
 
-    // On admin pages — never show
     if (pathname?.startsWith("/admin")) return null;
 
-    // Before mount: render a placeholder with the same height so layout is stable
     if (!mounted) {
         return (
             <div
                 suppressHydrationWarning
-                style={{ width: "100%", height: "33px", background: "var(--accent-primary)", flexShrink: 0 }}
+                style={{ width: "100%", height: "32px", background: "var(--bg-surface)", flexShrink: 0, borderBottom: "1px solid var(--bg-border)" }}
             />
         );
     }
@@ -38,18 +34,27 @@ export default function PromoBar() {
     };
 
     return (
-        <div style={{ width: "100%", position: "relative", background: "var(--accent-primary)", color: "#fff", flexShrink: 0 }}>
-            <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-center relative">
-                <p style={{ fontSize: "11px", fontWeight: 600, textAlign: "center", paddingRight: "32px" }}>
-                    🎮 Selamat datang di <strong>MSBP Store</strong> — Top Up Game Favorit dengan Harga Terbaik! ⚡
-                </p>
+        <div style={{
+            width: "100%",
+            position: "relative",
+            background: "var(--bg-surface)",
+            borderBottom: "1px solid var(--bg-border)",
+            flexShrink: 0,
+        }}>
+            <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-center relative">
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <Sparkles style={{ width: "11px", height: "11px", color: "var(--accent-primary)", flexShrink: 0 }} />
+                    <p style={{ fontSize: "11px", fontWeight: 500, color: "var(--text-secondary)", textAlign: "center", paddingRight: "24px", letterSpacing: "0.01em" }}>
+                        Top Up Game Favorit — <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Proses Instan 24 Jam · Harga Terbaik</span>
+                    </p>
+                </div>
                 <button
                     onClick={handleDismiss}
-                    style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", padding: "4px", borderRadius: "var(--radius-sm)", background: "transparent", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.8)", transition: "background 150ms ease" }}
-                    className="hover:bg-[rgba(255,255,255,0.1)]"
+                    style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", padding: "4px", borderRadius: "var(--radius-sm)", background: "transparent", border: "none", cursor: "pointer", color: "var(--text-muted)", transition: "color 150ms ease" }}
+                    className="hover:text-[var(--text-secondary)]"
                     aria-label="Tutup promo"
                 >
-                    <X style={{ width: "13px", height: "13px" }} />
+                    <X style={{ width: "12px", height: "12px" }} />
                 </button>
             </div>
         </div>

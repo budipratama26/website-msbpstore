@@ -86,34 +86,7 @@ export default function HomeClientWrapper({
                     overflow: "hidden",
                 }}
             >
-                {/* Decorative indigo glow — subtle, di pojok kiri */}
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "-60px",
-                        left: "-60px",
-                        width: "280px",
-                        height: "280px",
-                        background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
-                        pointerEvents: "none",
-                        zIndex: 0,
-                    }}
-                />
-                {/* Decorative glow kanan */}
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: "-40px",
-                        right: "-40px",
-                        width: "200px",
-                        height: "200px",
-                        background: "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
-                        pointerEvents: "none",
-                        zIndex: 0,
-                    }}
-                />
-
-                <div className="max-w-5xl mx-auto space-y-4 relative" style={{ zIndex: 1, paddingTop: "4px" }}>
+                <div className="max-w-5xl mx-auto space-y-4 relative"  style={{ zIndex: 1, paddingTop: "4px" }}>
 
                     {banners.length > 0 && (
                         <div className="overflow-hidden py-4 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -121,14 +94,14 @@ export default function HomeClientWrapper({
                         </div>
                     )}
 
-                    <div style={{ textAlign: "center", paddingTop: banners.length === 0 ? "16px" : "0" }}>
+                    <div style={{ textAlign: "center", paddingTop: banners.length === 0 ? "24px" : "4px" }}>
                         <h1
                             style={{
-                                fontSize: "clamp(22px, 4vw, 34px)",
-                                fontWeight: 800,
+                                fontSize: "clamp(20px, 4vw, 32px)",
+                                fontWeight: 700,
                                 letterSpacing: "-0.03em",
                                 marginBottom: "10px",
-                                lineHeight: 1.15,
+                                lineHeight: 1.2,
                             }}
                         >
                             Top Up{" "}
@@ -145,16 +118,16 @@ export default function HomeClientWrapper({
                         </h1>
                         <p
                             style={{
-                                color: "var(--text-secondary)",
+                                color: "var(--text-muted)",
                                 fontSize: "13px",
-                                maxWidth: "380px",
+                                maxWidth: "360px",
                                 margin: "0 auto",
-                                lineHeight: 1.65,
+                                lineHeight: 1.7,
                                 fontWeight: 400,
                             }}
                         >
                             Top up game favoritmu di{" "}
-                            <span style={{ fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+                            <span style={{ fontWeight: 600, color: "var(--text-secondary)", letterSpacing: "-0.01em" }}>
                                 MSBP Store
                             </span>
                             .{" "}Proses instan 24 jam, harga termurah &amp; terpercaya.
@@ -168,11 +141,10 @@ export default function HomeClientWrapper({
                 style={{
                     position: "sticky",
                     zIndex: 90,
-                    background: "rgba(6,8,15,0.94)",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
+                    background: "rgba(6,8,15,0.96)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
                     borderBottom: "1px solid var(--bg-border)",
-                    boxShadow: "0 2px 16px rgba(0,0,0,0.4)",
                     padding: "10px 16px",
                     top: "60px",
                 }}
@@ -209,7 +181,7 @@ export default function HomeClientWrapper({
                         }}
                         onFocus={(e) => {
                             e.currentTarget.style.borderColor = "var(--accent-border)";
-                            e.currentTarget.style.boxShadow = "0 0 0 3px var(--accent-glow)";
+                            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(124,133,240,0.12)";
                         }}
                         onBlur={(e) => {
                             e.currentTarget.style.borderColor = "var(--bg-border)";
@@ -303,7 +275,7 @@ export default function HomeClientWrapper({
                                                 textDecoration: "none",
                                                 scrollSnapAlign: "start",
                                             }}
-                                            className="hover:border-[var(--accent-border)] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_var(--accent-glow)]"
+                                            className="hover:border-[var(--accent-border)] hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(0,0,0,0.35)]"
                                         >
                                             <div
                                                 style={{
@@ -415,11 +387,10 @@ export default function HomeClientWrapper({
                                                 borderRadius: "var(--radius-lg)",
                                                 overflow: "hidden",
                                                 border: "1px solid var(--bg-border)",
-                                                background: "var(--bg-surface)",
-                                                boxShadow: "var(--shadow-sm)",
-                                                transition: "border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
+                                                background: "var(--bg-elevated)",
+                                                transition: "border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease",
                                             }}
-                                            className="group-hover:border-[var(--accent-border)] group-hover:shadow-[0_4px_20px_var(--accent-glow)] group-hover:-translate-y-1"
+                                            className="group-hover:border-[var(--accent-border)] group-hover:shadow-[0_4px_16px_rgba(0,0,0,0.4)] group-hover:-translate-y-1"
                                         >
                                             <CategoryImage
                                                 src={category.image}

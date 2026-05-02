@@ -255,14 +255,14 @@ export default async function AdminDashboard() {
                         }}
                     >
                         {/* Decorative circles */}
-                        <div style={{ position: "absolute", top: "-32px", right: "-32px", width: "100px", height: "100px", borderRadius: "50%", background: "rgba(59,130,246,0.1)", pointerEvents: "none" }} />
-                        <div style={{ position: "absolute", bottom: "-24px", left: "-24px", width: "80px", height: "80px", borderRadius: "50%", background: "rgba(59,130,246,0.05)", pointerEvents: "none" }} />
+                        <div style={{ position: "absolute", top: "-32px", right: "-32px", width: "100px", height: "100px", borderRadius: "50%", background: "rgba(124,133,240,0.08)", pointerEvents: "none" }} />
+                        <div style={{ position: "absolute", bottom: "-24px", left: "-24px", width: "80px", height: "80px", borderRadius: "50%", background: "rgba(124,133,240,0.04)", pointerEvents: "none" }} />
                         <div style={{ position: "relative", zIndex: 1 }}>
                             <div
                                 style={{
                                     width: "36px",
                                     height: "36px",
-                                    background: "rgba(59,130,246,0.2)",
+                                    background: "var(--accent-muted)",
                                     borderRadius: "var(--radius-md)",
                                     display: "flex",
                                     alignItems: "center",

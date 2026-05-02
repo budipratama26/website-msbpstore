@@ -7,7 +7,6 @@ export default function FloatingCS() {
     const pathname = usePathname();
     const isAdminPath = pathname?.startsWith("/admin");
 
-    // Don't show on admin dashboard
     if (isAdminPath) return null;
 
     return (
@@ -15,10 +14,28 @@ export default function FloatingCS() {
             href="https://wa.me/62895324802172"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed bottom-8 sm:bottom-6 right-6 z-[110] bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white p-3.5 rounded-2xl shadow-lg shadow-emerald-600/30 transition-all group flex items-center justify-center border border-emerald-500"
             aria-label="Hubungi Customer Service"
+            style={{
+                position: "fixed",
+                bottom: "28px",
+                right: "20px",
+                zIndex: 110,
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                background: "#22c55e",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                boxShadow: "0 4px 16px rgba(34,197,94,0.25), 0 1px 4px rgba(0,0,0,0.3)",
+                transition: "transform 200ms ease, box-shadow 200ms ease",
+                border: "1.5px solid rgba(255,255,255,0.15)",
+                textDecoration: "none",
+            }}
+            className="hover:scale-[1.08] hover:shadow-[0_6px_24px_rgba(34,197,94,0.35)]"
         >
-            <MessageCircle className="w-6 h-6" />
+            <MessageCircle style={{ width: "22px", height: "22px", strokeWidth: 2 }} />
         </a>
     );
 }

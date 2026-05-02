@@ -5,13 +5,15 @@ import Link from "next/link";
 import { Menu, X, User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import NotificationBell from "./NotificationBell";
 import BlackHoleLogo from "./BlackHoleLogo";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const lastScrollY = useRef(0);
     const pathname = usePathname();
     const { data: session } = useSession();
 
@@ -27,19 +29,37 @@ export default function Navbar() {
         setIsOpen(false);
     }, [pathname]);
 
+    // Hide navbar on scroll down, show on scroll up
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentY = window.scrollY;
+            if (currentY > lastScrollY.current && currentY > 80) {
+                setIsVisible(false);
+            } else {
+                setIsVisible(true);
+            }
+            lastScrollY.current = currentY;
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     if (pathname?.startsWith("/admin")) return null;
 
     return (
+        <>
         <header
             style={{
-                background: "rgba(11,15,28,0.92)",
+                background: "rgba(6,8,15,0.88)",
                 borderBottom: "1px solid var(--bg-border)",
                 height: "60px",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 position: "sticky",
                 top: 0,
                 zIndex: 100,
+                transform: isVisible ? "translateY(0)" : "translateY(-100%)",
+                transition: "transform 300ms cubic-bezier(0.4,0,0.2,1)",
             }}
             className="w-full shrink-0"
         >
@@ -94,7 +114,6 @@ export default function Navbar() {
                                     height: "2px",
                                     borderRadius: "9999px",
                                     background: "var(--accent-primary)",
-                                    boxShadow: "0 0 8px var(--accent-glow)",
                                     transition: "width 200ms ease, opacity 200ms ease",
                                     width: isActive(link.href) ? "100%" : "0%",
                                     opacity: isActive(link.href) ? 1 : 0,
@@ -135,7 +154,7 @@ export default function Navbar() {
                                 <div style={{ width: "1px", height: "16px", background: "var(--bg-border)" }} />
                                 <NotificationBell />
 
-                                {/* User Dropdown */}
+                            {/* User Dropdown */}
                                 <div className="relative">
                                     <button
                                         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -144,15 +163,14 @@ export default function Navbar() {
                                             display: "flex",
                                             alignItems: "center",
                                             gap: "8px",
-                                            background: "var(--bg-elevated)",
-                                            border: dropdownOpen ? "1px solid var(--accent-border)" : "1px solid var(--bg-border)",
+                                            background: dropdownOpen ? "var(--bg-elevated)" : "transparent",
+                                            border: dropdownOpen ? "1px solid var(--accent-border)" : "1px solid transparent",
                                             borderRadius: "var(--radius-md)",
                                             padding: "6px 10px",
                                             cursor: "pointer",
-                                            transition: "border-color 180ms ease, box-shadow 180ms ease",
-                                            boxShadow: dropdownOpen ? "0 0 12px var(--accent-glow)" : "none",
+                                            transition: "border-color 180ms ease, background 180ms ease",
                                         }}
-                                        className="hover:border-[var(--accent-border)] hover:shadow-[0_0_12px_var(--accent-glow)]"
+                                        className="hover:bg-[var(--bg-elevated)] hover:border-[var(--bg-border)]"
                                     >
                                         {/* Avatar */}
                                         <div
@@ -168,7 +186,6 @@ export default function Navbar() {
                                                 fontWeight: 800,
                                                 fontSize: "10px",
                                                 flexShrink: 0,
-                                                boxShadow: "0 0 8px var(--accent-glow)",
                                             }}
                                         >
                                             {session.user?.name?.[0]?.toUpperCase() || "U"}
@@ -199,12 +216,12 @@ export default function Navbar() {
                                         <div
                                             style={{
                                                 position: "absolute",
-                                                top: "calc(100% + 10px)",
+                                                top: "calc(100% + 8px)",
                                                 right: 0,
                                                 background: "var(--bg-surface)",
                                                 border: "1px solid var(--bg-border)",
                                                 borderRadius: "var(--radius-xl)",
-                                                boxShadow: "var(--shadow-lg), 0 0 24px var(--accent-glow)",
+                                                boxShadow: "var(--shadow-lg)",
                                                 padding: "6px",
                                                 minWidth: "172px",
                                                 zIndex: 110,
@@ -322,21 +339,27 @@ export default function Navbar() {
                 />
             )}
 
-            {/* Mobile Menu */}
-            {isOpen && (
-                <div
-                    style={{
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        top: "100%",
-                        background: "var(--bg-surface)",
-                        borderBottom: "1px solid var(--bg-border)",
-                        boxShadow: "var(--shadow-lg)",
-                        zIndex: 100,
-                    }}
-                    className="lg:hidden animate-fade-in-fast"
-                >
+            {/* Mobile Menu — smooth slide */}
+            <div
+                style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    top: "100%",
+                    background: "rgba(6,8,15,0.98)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    borderBottom: "1px solid var(--bg-border)",
+                    boxShadow: "var(--shadow-lg)",
+                    zIndex: 99,
+                    overflow: "hidden",
+                    maxHeight: isOpen ? "500px" : "0px",
+                    transition: "max-height 320ms cubic-bezier(0.4,0,0.2,1), opacity 250ms ease",
+                    opacity: isOpen ? 1 : 0,
+                    pointerEvents: isOpen ? "auto" : "none",
+                }}
+                className="lg:hidden"
+            >
                     <div style={{ padding: "10px" }} className="space-y-0.5">
                         {navLinks.map((link) => (
                             <Link
@@ -363,11 +386,10 @@ export default function Navbar() {
                                         style={{
                                             marginRight: "10px",
                                             width: "3px",
-                                            height: "16px",
-                                            background: "linear-gradient(to bottom, var(--accent-primary), var(--accent-hover))",
+                                            height: "14px",
+                                            background: "var(--accent-primary)",
                                             borderRadius: "9999px",
                                             flexShrink: 0,
-                                            boxShadow: "0 0 6px var(--accent-glow)",
                                         }}
                                     />
                                 )}
@@ -403,10 +425,9 @@ export default function Navbar() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             color: "#fff",
-                                            fontWeight: 800,
+                                            fontWeight: 700,
                                             fontSize: "13px",
                                             flexShrink: 0,
-                                            boxShadow: "0 0 12px var(--accent-glow)",
                                         }}
                                     >
                                         {session.user?.name?.[0]?.toUpperCase() || "U"}
@@ -490,8 +511,8 @@ export default function Navbar() {
                             </div>
                         )}
                     </div>
-                </div>
-            )}
+            </div>
         </header>
+        </>
     );
 }

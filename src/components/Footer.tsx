@@ -18,37 +18,9 @@ export default function Footer() {
                 background: "var(--bg-surface)",
                 borderTop: "1px solid var(--bg-border)",
                 marginTop: "auto",
-                position: "relative",
-                overflow: "hidden",
             }}
         >
-            {/* Subtle indigo glow di top-center */}
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: "300px",
-                    height: "1px",
-                    background: "linear-gradient(90deg, transparent, var(--accent-border), transparent)",
-                    pointerEvents: "none",
-                }}
-            />
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: "200px",
-                    height: "60px",
-                    background: "radial-gradient(ellipse at top, var(--accent-glow) 0%, transparent 70%)",
-                    pointerEvents: "none",
-                }}
-            />
-
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 relative">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
                 {/* Top */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-6">

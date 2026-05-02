@@ -14,10 +14,9 @@ export default function NotFound() {
               lineHeight: 1,
               userSelect: "none",
               margin: 0,
-              background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%)",
+              background: "linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 40px rgba(59,130,246,0.25))",
             }}
           >
             404
@@ -30,9 +29,9 @@ export default function NotFound() {
               fontWeight: 900,
               lineHeight: 1,
               userSelect: "none",
-              color: "#3b82f6",
-              opacity: 0.08,
-              filter: "blur(24px)",
+              color: "var(--accent-primary)",
+              opacity: 0.06,
+              filter: "blur(20px)",
             }}
           >
             404

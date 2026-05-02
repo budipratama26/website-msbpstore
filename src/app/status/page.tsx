@@ -106,7 +106,7 @@ export default function StatusPage() {
                                 <div style={{ padding: "20px" }}>
                                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                                         <div className="flex gap-4 flex-1 min-w-0">
-                                            <div style={{ width: "44px", height: "44px", borderRadius: "var(--radius-md)", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 12px var(--accent-glow)" }}>
+                                            <div style={{ width: "44px", height: "44px", borderRadius: "var(--radius-md)", background: "var(--accent-muted)", border: "1px solid var(--accent-border)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                                 <Package style={{ width: "20px", height: "20px", color: "var(--accent-primary)" }} />
                                             </div>
                                             <div className="flex-1 min-w-0">
